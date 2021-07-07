@@ -1,22 +1,31 @@
 import React from "react";
 import {
 	StyleSheet,
-	View,
 	Text,
 	Linking,
 	Alert,
 	TouchableOpacity,
 } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 
 import Colors from "../constants/Colors";
 
 export default function LinkButton(props) {
 	const item = props.item;
 
+	const navigation = useNavigation();
+	// console.log(navigation);
+
 	// Handler for when a button is clicked
 	const clickHandler = async () => {
 		// If item is a category, navigate to a new ButtonList screen
 		if (item.type === "CATEGORY") {
+			navigation.navigate({
+				name: "List",
+				params: {
+					children: item.children,
+				},
+			});
 			return;
 		}
 

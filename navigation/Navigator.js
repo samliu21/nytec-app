@@ -9,7 +9,7 @@ const MainNavigatorStack = createStackNavigator();
 const MainNavigator = () => {
 	return (
 		<MainNavigatorStack.Navigator>
-			<MainNavigatorStack.Screen name="Home" component={ButtonList} />
+			<MainNavigatorStack.Screen name="List" component={ButtonList} />
 		</MainNavigatorStack.Navigator>
 	);
 };
