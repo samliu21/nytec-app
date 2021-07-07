@@ -20,6 +20,7 @@ export default function LinkButton(props) {
 
 	return (
 		<View style={styles.container}>
+			<Text>{item.name}</Text>
 			<Text onPress={clickHandler}>{item.url ?? "None"}</Text>
 		</View>
 	);

@@ -1,7 +1,8 @@
 export default class Url {
 	type = "URL";
 
-	constructor(url) {
+	constructor(name, url) {
+		this.name = name;
 		this.url = url;
 	}
 }

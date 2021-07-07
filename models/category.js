@@ -1,7 +1,8 @@
 export default class Category {
 	type = "CATEGORY";
 
-	constructor(children) {
+	constructor(name, children) {
+		this.name = name;
 		this.children = children;
 	}
 }
