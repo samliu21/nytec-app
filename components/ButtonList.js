@@ -14,6 +14,7 @@ export default function ButtonList(props) {
 		}
 	};
 
+	// Call renderButtons method
 	return (
 		<View style={styles.container}>
 			{renderButtons()}
