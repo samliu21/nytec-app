@@ -5,10 +5,13 @@ import {
 	Linking,
 	Alert,
 	TouchableOpacity,
+	Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 
 import Colors from "../constants/Colors";
+
+const width = Dimensions.get("window").width;
 
 export default function LinkButton(props) {
 	const item = props.item;
@@ -38,18 +41,21 @@ export default function LinkButton(props) {
 	return (
 		<TouchableOpacity style={styles.container} onPress={clickHandler}>
 			<Text style={styles.name}>{item.name}</Text>
-			<Text style={styles.name}>{item.url}</Text>
+			<Text style={styles.name}>{item.url ? "Link" : "Nav"}</Text>
 		</TouchableOpacity>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		marginVertical: 12,
 		backgroundColor: Colors.primary,
-		width: "70%",
-		paddingVertical: 10,
+		width: width / 3.3,
+		aspectRatio: 1,
 		borderRadius: 15,
+		justifyContent: "center",
+		alignItems: "center",
+		margin: "1%",
+		padding: "2%",
 	},
 	link: {
 		color: "white",
