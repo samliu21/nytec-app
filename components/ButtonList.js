@@ -1,16 +1,19 @@
 import React, { useEffect } from "react";
-import { StyleSheet, SafeAreaView, FlatList, Dimensions } from "react-native";
+import { StyleSheet, SafeAreaView, FlatList } from "react-native";
 
-import LinkButton from "./LinkButton";
+import Button from "./Button";
 import data from "../data/data";
-
-const width = Dimensions.get("window").width;
+import { flatListWidth } from "../constants/Sizes";
 
 export default function ButtonList(props) {
-	let items = props.route.params
+	// When ButtonList is called initially from the navigator, it won't have props
+	// If it doesn't (e.g. props.route.params is undefined), we set items to be data.children or the highest level 
+	// Otherwise, we access the items through props.route.params.children
+	const items = props.route.params
 		? props.route.params.children
 		: data.children;
 
+	// Sets title in the navigation bar
 	useEffect(() => {
 		props.navigation.setOptions({
 			headerTitle: props.route.params
@@ -22,11 +25,10 @@ export default function ButtonList(props) {
 	// Render function for home screen
 	// Maps each data item to a LinkButton
 	const renderButton = (button) => {
-		return <LinkButton item={button.item} key={button.item.id} />;
+		return <Button item={button.item} key={button.item.id} />;
 	};
 
-	// Call renderButtons method
-	// return <View style={styles.container}>{renderButtons()}</View>;
+	// Render a FlatList that becomes a grid with 3 columns
 	return (
 		<SafeAreaView style={styles.container}>
 			<FlatList
@@ -35,32 +37,18 @@ export default function ButtonList(props) {
 				keyExtractor={(item) => item.id}
 				numColumns={3}
 				contentContainerStyle={styles.flatList}
-				columnWrapperStyle={styles.rowStyle}
 			/>
 		</SafeAreaView>
 	);
 }
 
 const styles = StyleSheet.create({
-	// The whole screen
 	container: {
-		width: "100%",
-		height: "100%",
-		backgroundColor: "#fff",
+		flex: 1,
 		alignItems: "center",
-		justifyContent: "center",
-		position: "relative",
 	},
-	// The whole FlatList
 	flatList: {
-		justifyContent: "center",
-		width: "100%",
-		// borderWidth: 10,
+		width: flatListWidth,
 		marginTop: "5%",
-	},
-	// Each row in the FlatList
-	rowStyle: { 
-		// alignItems: "center", 
-		// justifyContent: "center",
 	},
 });

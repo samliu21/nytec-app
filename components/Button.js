@@ -5,15 +5,13 @@ import {
 	Linking,
 	Alert,
 	TouchableOpacity,
-	Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 
 import Colors from "../constants/Colors";
+import { buttonWidth, horizontalMargin } from "../constants/Sizes";
 
-const width = Dimensions.get("window").width;
-
-export default function LinkButton(props) {
+export default function Button(props) {
 	const item = props.item;
 
 	const navigation = useNavigation();
@@ -49,12 +47,12 @@ export default function LinkButton(props) {
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: Colors.primary,
-		width: width / 3.3,
+		width: buttonWidth,
 		aspectRatio: 1,
 		borderRadius: 15,
 		justifyContent: "center",
 		alignItems: "center",
-		margin: "1%",
+		margin: horizontalMargin,
 		padding: "2%",
 	},
 	link: {
