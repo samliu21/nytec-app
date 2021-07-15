@@ -2,44 +2,67 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { TextInput, View, Button, StyleSheet, Text } from "react-native";
 import * as Notifications from "expo-notifications";
-import Colors from "../constants/Colors";
 
-export default function Test() {
+import Colors from "../constants/Colors";
+import { signIn, signUp } from "../util";
+
+export default function Auth() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [retypedPassword, setRetypedPassword] = useState("");
 	const [isLogin, setIsLogin] = useState(true);
 
 	const submitHandler = async () => {
-		const response = await axios.get(
-			"https://nytec-practice-default-rtdb.firebaseio.com/tokens.json"
-		);
-		const obj = response.data;
+		if (isLogin) {
+			signIn(email, password);
+		} else {
+			signUp(email, password);
+		}
 
-		const tokens = new Set();
-		for (const key in obj) {
-			tokens.add(obj[key]["token"]);
-		}
-		for (const key of tokens) {
-			const response = await axios.post(
-				"https://exp.host/--/api/v2/push/send",
-				{
-					to: key,
-					title: "Hey there!",
-					body: "Hello!",
-				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
-			);
-			console.log(response);
-		}
+		// console.log(response.ok);
+		// const res = await response.json();
+		// console.log(res);
+		// const response = await axios.get(
+		// 	"https://nytec-practice-default-rtdb.firebaseio.com/tokens.json"
+		// );
+		// const obj = response.data;
+
+		// const tokens = new Set();
+		// for (const key in obj) {
+		// 	tokens.add(obj[key]["token"]);
+		// }
+		// for (const key of tokens) {
+		// 	const response = await axios.post(
+		// 		"https://exp.host/--/api/v2/push/send",
+		// 		{
+		// 			to: key,
+		// 			title: "Hey there!",
+		// 			body: "Hello!",
+		// 		},
+		// 		{
+		// 			headers: {
+		// 				"Content-Type": "application/json",
+		// 			},
+		// 		}
+		// 	);
+		// 	console.log(response);
+		// }
 	};
 
 	const switchModeHandler = () => {
 		setIsLogin((state) => !state);
+	};
+
+	const emailChangeHandler = (text) => {
+		setEmail(text);
+	};
+
+	const passwordChangeHandler = (text) => {
+		setPassword(text);
+	};
+
+	const retypePasswordChangeHandler = (text) => {
+		setRetypedPassword(text);
 	};
 
 	useEffect(() => {
@@ -58,13 +81,14 @@ export default function Test() {
 			<Text style={styles.title}>{isLogin ? "Login" : "Signup"}</Text>
 			<TextInput
 				value={email}
-				onChange={setEmail}
+				onChangeText={emailChangeHandler}
 				placeholder="Email"
+				autoCapitalize="none"
 				style={styles.input}
 			/>
 			<TextInput
 				value={password}
-				onChange={setPassword}
+				onChangeText={passwordChangeHandler}
 				placeholder="Password"
 				secureTextEntry
 				style={styles.input}
@@ -72,7 +96,7 @@ export default function Test() {
 			{!isLogin && (
 				<TextInput
 					value={retypedPassword}
-					onChange={setRetypedPassword}
+					onChangeText={retypePasswordChangeHandler}
 					placeholder="Retype your password"
 					secureTextEntry
 					style={styles.input}
@@ -81,7 +105,7 @@ export default function Test() {
 			<View style={styles.buttonContainer}>
 				<Button
 					title="Submit"
-					onPress={() => {}}
+					onPress={submitHandler}
 					color={Colors.primary}
 				/>
 				<Button
