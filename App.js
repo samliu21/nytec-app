@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import * as Notifications from "expo-notifications";
+// import { getUniqueId } from "react-native-device-info";
 
 import Navigator from "./navigation/Navigator";
 import axios from "axios";
@@ -19,11 +20,29 @@ export default function App() {
 					alert("Failed to get push token!");
 					return;
 				}
+				// const deviceId = getUniqueId();
+				// console.log(deviceId);
 
 				const token = (await Notifications.getExpoPushTokenAsync())
 					.data;
-				console.log(token);
-				
+
+				if (token) {
+					const response = axios.post(
+						"https://nytec-practice-default-rtdb.firebaseio.com/tokens.json",
+						{
+							token: token,
+						},
+						{
+							headers: {
+								"Content-Type": "application/json",
+							},
+						}
+					);
+					console.log(response);
+
+					console.log(token);
+				}
+
 				// axios.post("")
 			} catch (err) {
 				console.log("An error occurred: " + err.message);

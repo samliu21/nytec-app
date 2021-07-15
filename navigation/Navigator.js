@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import ButtonList from "../components/ButtonList";
+import Test from "../components/Auth";
 import Colors from "../constants/Colors";
 
 const defaultStyle = {
@@ -19,6 +20,7 @@ const MainNavigatorStack = createStackNavigator();
 const MainNavigator = () => {
 	return (
 		<MainNavigatorStack.Navigator screenOptions={defaultStyle}>
+			<MainNavigatorStack.Screen name="Test" component={Test} />
 			<MainNavigatorStack.Screen name="List" component={ButtonList} />
 		</MainNavigatorStack.Navigator>
 	);
