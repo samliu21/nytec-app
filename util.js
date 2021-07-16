@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// Signup using Firebase's REST authentication API
 export const signUp = async (email, password) => {
 	try {
 		const response = await axios.post(
@@ -34,6 +35,7 @@ export const signUp = async (email, password) => {
 	}
 };
 
+// Sign in using Firebase's REST authentication API
 export const signIn = async (email, password) => {
 	try {
 		const response = await axios.post(
@@ -65,3 +67,4 @@ export const signIn = async (email, password) => {
 		}
 	}
 };
+

@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { TextInput, View, Button, StyleSheet, Text } from "react-native";
 import * as Notifications from "expo-notifications";
 
 import Colors from "../constants/Colors";
 import { signIn, signUp } from "../util";
+import { AppContext } from "../App";
 
 export default function Auth() {
 	const [email, setEmail] = useState("");
@@ -12,41 +13,65 @@ export default function Auth() {
 	const [retypedPassword, setRetypedPassword] = useState("");
 	const [isLogin, setIsLogin] = useState(true);
 
+	const token = useContext(AppContext);
+
 	const submitHandler = async () => {
-		if (isLogin) {
-			signIn(email, password);
-		} else {
-			signUp(email, password);
+		const authObject = await (isLogin
+			? signIn(email, password)
+			: signUp(email, password));
+
+		// Get the userId of the authenticated user
+		const userId = authObject.localId;
+		const idToken = authObject.idToken;
+
+		// If push token and user id exist, fetch current token list and append new token if not already in the list
+		if (token && userId) {
+			const response = await axios.get(
+				`https://nytec-practice-default-rtdb.firebaseio.com/users/${userId}.json?auth=${idToken}`
+			);
+			const userData = response.data;
+			/*
+			console.log(userData)
+			
+			If already exists:
+			Object {
+				"role": "user",
+				"tokens": Array [
+					"ExponentPushToken[4CmceLB3TJ3IuuFqx-3-Og]",
+				],
+			}
+
+			If doesn't exist:
+			null
+			*/
+
+			const role = userData ? userData.role : "user";
+			const tokens = userData ? userData.tokens : null;
+
+			if (!tokens || !tokens.includes(token)) {
+				const updatedTokenList = tokens ? tokens : [];
+				if (!updatedTokenList.includes(token)) {
+					updatedTokenList.push(token);
+				}
+
+				await axios.put(
+					`https://nytec-practice-default-rtdb.firebaseio.com/users/${userId}.json?auth=${idToken}`,
+					{
+						role: role,
+						tokens: updatedTokenList,
+					},
+					{
+						"Content-Type": "application/json",
+					}
+				);
+			}
 		}
 
-		// console.log(response.ok);
-		// const res = await response.json();
-		// console.log(res);
-		// const response = await axios.get(
-		// 	"https://nytec-practice-default-rtdb.firebaseio.com/tokens.json"
-		// );
-		// const obj = response.data;
-
-		// const tokens = new Set();
-		// for (const key in obj) {
-		// 	tokens.add(obj[key]["token"]);
-		// }
-		// for (const key of tokens) {
-		// 	const response = await axios.post(
-		// 		"https://exp.host/--/api/v2/push/send",
-		// 		{
-		// 			to: key,
-		// 			title: "Hey there!",
-		// 			body: "Hello!",
-		// 		},
-		// 		{
-		// 			headers: {
-		// 				"Content-Type": "application/json",
-		// 			},
-		// 		}
-		// 	);
-		// 	console.log(response);
-		// }
+		const response = await axios.get(
+			`https://nytec-practice-default-rtdb.firebaseio.com/users.json?auth=${idToken}`
+		);
+		const obj = response.data;
+		console.log(obj);
 	};
 
 	const switchModeHandler = () => {

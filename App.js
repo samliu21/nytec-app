@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, createContext, useState } from "react";
 import * as Notifications from "expo-notifications";
-// import { getUniqueId } from "react-native-device-info";
+
+export const AppContext = createContext();
 
 import Navigator from "./navigation/Navigator";
-import axios from "axios";
 
 export default function App() {
+	const [token, setToken] = useState();
+
 	useEffect(() => {
 		const notificationSetup = async () => {
 			try {
@@ -23,36 +25,39 @@ export default function App() {
 				// const deviceId = getUniqueId();
 				// console.log(deviceId);
 
-				const token = (await Notifications.getExpoPushTokenAsync())
+				const pulledToken = (await Notifications.getExpoPushTokenAsync())
 					.data;
+				setToken(pulledToken);
 
-				if (token) {
-					const response = axios.post(
-						"https://nytec-practice-default-rtdb.firebaseio.com/tokens.json",
-						{
-							token: token,
-						},
-						{
-							headers: {
-								"Content-Type": "application/json",
-							},
-						}
-					);
-					console.log(response);
+				if (pulledToken) {
+					// const response = axios.post(
+					// 	"https://nytec-practice-default-rtdb.firebaseio.com/tokens.json",
+					// 	{
+					// 		token: token,
+					// 	},
+					// 	{
+					// 		headers: {
+					// 			"Content-Type": "application/json",
+					// 		},
+					// 	}
+					// );
+					// console.log(response);
 
-					console.log(token);
+					console.log(pulledToken);
 				}
-
-				// axios.post("")
 			} catch (err) {
-				console.log("An error occurred: " + err.message);
+				console.log(err.message);
 			}
 		};
 
 		notificationSetup();
 	}, []);
 
-	return <Navigator />;
+	return (
+		<AppContext.Provider value={token}>
+			<Navigator />
+		</AppContext.Provider>
+	);
 }
 /*
 curl -H "Content-Type: application/json" -X POST "https://exp.host/--/api/v2/push/send" -d '{
