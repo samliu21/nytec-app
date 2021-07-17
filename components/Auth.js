@@ -23,6 +23,8 @@ export default function Auth() {
 		// Get the userId of the authenticated user
 		const userId = authObject.localId;
 		const idToken = authObject.idToken;
+		console.log(userId, idToken);
+		// https://nytec-practice-default-rtdb.firebaseio.com/users/qUcttFcCBVdMSay2u7dIlPX08Ox2.json?auth=eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc3MTBiMDE3ZmQ5YjcxMWUwMDljNmMzNmIwNzNiOGE2N2NiNjgyMTEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vbnl0ZWMtcHJhY3RpY2UiLCJhdWQiOiJueXRlYy1wcmFjdGljZSIsImF1dGhfdGltZSI6MTYyNjU0Nzc0NiwidXNlcl9pZCI6InFVY3R0RmNDQlZkTVNheTJ1N2RJbFBYMDhPeDIiLCJzdWIiOiJxVWN0dEZjQ0JWZE1TYXkydTdkSWxQWDA4T3gyIiwiaWF0IjoxNjI2NTQ3NzQ2LCJleHAiOjE2MjY1NTEzNDYsImVtYWlsIjoic2FtNGJ1dHRvbkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsic2FtNGJ1dHRvbkBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.hK6IYKA0czke9LV74btgzKnt3SiBZjwU1hzi8I3Z-VuxV5WiPhHOBptcwHizYsit4RpGcvUjd1wA8wzgSPiTwnDQBi04VsHpCMhNLb5zOUlpvd3BUE4G2HEmv6HhU0Ji3OBPneqd_fNufb0xfLzKW8GFcAZdtlh5aS8CkJf1cgo5t7haAjxF16iFk4EE7r60cwmH8tbLdhWyzJLQdB0oeh_o_YgzDEQ0SoBrIUU2yq9pd6RhHxksGIDkCXej7K3TkmeGCZD4gX6YIJ0ZZxRvdJQ_ePoL1186Xf60TANHFOVQMBOkLMi3eDdFOehFqB7NiQZj5oa68THkzmnS_tC_HQ
 
 		// If push token and user id exist, fetch current token list and append new token if not already in the list
 		if (token && userId) {
@@ -45,7 +47,6 @@ export default function Auth() {
 			null
 			*/
 
-			const role = userData ? userData.role : "user";
 			const tokens = userData ? userData.tokens : null;
 
 			if (!tokens || !tokens.includes(token)) {
@@ -57,7 +58,7 @@ export default function Auth() {
 				await axios.put(
 					`https://nytec-practice-default-rtdb.firebaseio.com/users/${userId}.json?auth=${idToken}`,
 					{
-						role: role,
+						role: "user",
 						tokens: updatedTokenList,
 					},
 					{
@@ -67,11 +68,11 @@ export default function Auth() {
 			}
 		}
 
-		const response = await axios.get(
-			`https://nytec-practice-default-rtdb.firebaseio.com/users.json?auth=${idToken}`
-		);
-		const obj = response.data;
-		console.log(obj);
+		// const response = await axios.get(
+		// 	`https://nytec-practice-default-rtdb.firebaseio.com/users.json?auth=${idToken}`
+		// );
+		// const obj = response.data;
+		// console.log(obj);
 	};
 
 	const switchModeHandler = () => {
