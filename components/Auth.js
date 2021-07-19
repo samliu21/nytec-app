@@ -1,12 +1,12 @@
 import axios from "axios";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { TextInput, View, Button, StyleSheet, Text, Alert } from "react-native";
+import { useSelector } from "react-redux";
 import * as Notifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/core";
 
 import Colors from "../constants/Colors";
 import { signIn, signUp } from "../util";
-import { AppContext } from "../App";
 import data from "../data/data";
 
 export default function Auth() {
@@ -15,7 +15,7 @@ export default function Auth() {
 	const [retypedPassword, setRetypedPassword] = useState("");
 	const [isLogin, setIsLogin] = useState(true);
 
-	const token = useContext(AppContext);
+	const token = useSelector((state) => state.notification.pushToken);
 	const navigation = useNavigation();
 
 	const submitHandler = async () => {
