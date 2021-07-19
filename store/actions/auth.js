@@ -73,7 +73,11 @@ export const signIn = (email, password, pushToken) => {
 			const idToken = response.data.idToken;
 			const userId = response.data.localId;
 
-			await sendToDatabase(true, userId, idToken, pushToken);
+			const role = await sendToDatabase(true, userId, idToken, pushToken);
+			dispatch({
+				type: SET_ROLE,
+				role: role,
+			});
 
 			dispatch({
 				type: SIGNIN,
@@ -99,15 +103,18 @@ export const signIn = (email, password, pushToken) => {
 };
 
 const sendToDatabase = async (isLogin, userId, idToken, pushToken) => {
+	// User's role status (e.g. user, admin)
+	let role;
+
 	try {
 		if (userId && idToken) {
 			const loginResponse = await axios.get(
 				`https://nytec-practice-default-rtdb.firebaseio.com/users/${userId}.json?auth=${idToken}`
 			);
-			
-			setRole(loginResponse.data ? loginResponse.data.role : "user");
 
-			if (!loginResponse.data) {
+			role = loginResponse.data ? loginResponse.data.role : "user";
+
+			if (!loginResponse.data && !isLogin) {
 				await axios.put(
 					`https://nytec-practice-default-rtdb.firebaseio.com/users/${userId}.json?auth=${idToken}`,
 					{
@@ -156,11 +163,6 @@ const sendToDatabase = async (isLogin, userId, idToken, pushToken) => {
 		console.log(err.message);
 		Alert.alert("Error handling your credentials");
 	}
-};
 
-const setRole = (role) => {
-	return {
-		type: SET_ROLE,
-		role: role,
-	};
+	return role;
 };

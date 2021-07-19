@@ -21,6 +21,7 @@ export default reducer = (state = initialState, action) => {
 				userId: action.userId,
 			}
 		case SET_ROLE:
+			console.log("Hello?");
 			return {
 				...state,
 				role: action.role,

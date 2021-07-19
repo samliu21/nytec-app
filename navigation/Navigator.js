@@ -31,7 +31,6 @@ const MainNavigator = () => {
 
 export default function Navigator() {
 	const role = useSelector((state) => state.auth.role);
-	console.log(role);
 
 	return (
 		<NavigationContainer>
