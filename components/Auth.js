@@ -1,13 +1,12 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { TextInput, View, Button, StyleSheet, Text, Alert } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as Notifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/core";
 
 import Colors from "../constants/Colors";
-import { signIn, signUp } from "../util";
 import data from "../data/data";
+import * as authActions from "../store/actions/auth";
 
 export default function Auth() {
 	const [email, setEmail] = useState("");
@@ -16,87 +15,37 @@ export default function Auth() {
 	const [isLogin, setIsLogin] = useState(true);
 
 	const token = useSelector((state) => state.notification.pushToken);
+
 	const navigation = useNavigation();
+	const dispatch = useDispatch();
 
 	const submitHandler = async () => {
+		// Check that passwords match
 		if (!isLogin && password !== retypedPassword) {
 			Alert.alert("Passwords don't match!", "Please try again!");
 			return;
 		}
 
+		// Try to login or signup
 		try {
-			var authObject = await (isLogin
-				? signIn(email, password)
-				: signUp(email, password));
-			} catch (err) {
-				Alert.alert("Error", err.message ?? "There was an error handling your credentials");
-				return;
-			}
-
-		// Get the userId of the authenticated user
-		const userId = authObject.localId;
-		const idToken = authObject.idToken;
-
-		try {
-			if (!isLogin && userId && idToken) {
-				await axios.put(
-					`https://nytec-practice-default-rtdb.firebaseio.com/users/${userId}.json?auth=${idToken}`,
-					{
-						role: "user",
-					},
-					{
-						headers: {
-							"Content-Type": "application/json",
-						},
-					}
-				);
+			if (isLogin) {
+				dispatch(authActions.signIn(email, password, token));
+			} else {
+				dispatch(authActions.signUp(email, password, token));
 			}
 		} catch (err) {
-			// Error will be thrown if role already exists
-			console.log(err.message);
+			Alert.alert(
+				"Error",
+				err.message ?? "There was an error handling your credentials"
+			);
+			return;
 		}
 
-		try {
-			// If push token and user id exist, fetch current token list and append new token if not already in the list
-			if (token && userId && idToken) {
-				const response = await axios.get(
-					`https://nytec-practice-default-rtdb.firebaseio.com/tokens/${userId}.json?auth=${idToken}`
-				);
-
-				const tokens = response.data ? response.data.tokens : null;
-
-				if (!tokens || !tokens.includes(token)) {
-					const updatedTokenList = tokens ? tokens : [];
-					updatedTokenList.push(token);
-
-					await axios.put(
-						`https://nytec-practice-default-rtdb.firebaseio.com/tokens/${userId}.json?auth=${idToken}`,
-						{
-							tokens: updatedTokenList,
-						},
-						{
-							headers: {
-								"Content-Type": "application/json",
-							},
-						}
-					);
-				}
-			}
-
-			navigation.push("List", {
-				children: data.children,
-				name: data.name,
-			});
-		} catch (err) {
-			console.log(err.message);
-			Alert.alert("Error handling your credentials")
-		}
-
-		// const response = await axios.get(
-		// 	`https://nytec-practice-default-rtdb.firebaseio.com/tokens.json?auth=${idToken}`
-		// );
-		// const obj = response.data;
-		// console.log(obj);
+		// Redirect to home screen
+		navigation.push("List", {
+			children: data.children,
+			name: data.name,
+		});
 	};
 
 	const switchModeHandler = () => {

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { StyleSheet, SafeAreaView, FlatList } from "react-native";
+import { useSelector } from "react-redux";
 
 import Button from "./Button";
 import { flatListWidth } from "../constants/Sizes";
@@ -9,6 +10,9 @@ export default function ButtonList(props) {
 	// If it doesn't (e.g. props.route.params is undefined), we set items to be data.children or the highest level
 	// Otherwise, we access the items through props.route.params.children
 	const items = props.route.params.children;
+
+	// const role = useSelector((state) => state.auth.role);
+	// console.log(role);
 
 	// Sets title in the navigation bar
 	useEffect(() => {
