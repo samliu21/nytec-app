@@ -1,9 +1,12 @@
 import React, { useEffect, createContext, useState } from "react";
 import * as Notifications from "expo-notifications";
+import { Provider } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import store from "./store/store";
+import Navigator from "./navigation/Navigator";
 
 export const AppContext = createContext();
-
-import Navigator from "./navigation/Navigator";
 
 export default function App() {
 	const [token, setToken] = useState();
@@ -22,28 +25,13 @@ export default function App() {
 					alert("Failed to get push token!");
 					return;
 				}
-				// const deviceId = getUniqueId();
-				// console.log(deviceId);
 
-				const pulledToken = (await Notifications.getExpoPushTokenAsync())
-					.data;
-				setToken(pulledToken);
+				const pulledToken = (
+					await Notifications.getExpoPushTokenAsync()
+				).data;
 
 				if (pulledToken) {
-					// const response = axios.post(
-					// 	"https://nytec-practice-default-rtdb.firebaseio.com/tokens.json",
-					// 	{
-					// 		token: token,
-					// 	},
-					// 	{
-					// 		headers: {
-					// 			"Content-Type": "application/json",
-					// 		},
-					// 	}
-					// );
-					// console.log(response);
-
-					console.log(pulledToken);
+					setToken(pulledToken);
 				}
 			} catch (err) {
 				console.log(err.message);

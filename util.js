@@ -1,5 +1,7 @@
 import axios from "axios";
 
+let timer;
+
 // Signup using Firebase's REST authentication API
 export const signUp = async (email, password) => {
 	try {
@@ -14,11 +16,11 @@ export const signUp = async (email, password) => {
 				"Content-Type": "application/json",
 			}
 		);
-
+		
+		
 		return response.data;
 	} catch (err) {
 		let message = "There was an error handling your credentials";
-		console.log(err.response.data.error.message);
 		switch (err.response.data.error.message) {
 			case "EMAIL_EXISTS":
 				message = "Email already exists.";
