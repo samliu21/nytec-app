@@ -14,24 +14,29 @@ export const signUp = async (email, password) => {
 				"Content-Type": "application/json",
 			}
 		);
-		
+
 		return response.data;
 	} catch (err) {
+		let message = "There was an error handling your credentials";
+		console.log(err.response.data.error.message);
 		switch (err.response.data.error.message) {
 			case "EMAIL_EXISTS":
-				console.log("Email already exists.");
+				message = "Email already exists.";
 				break;
 			case "INVALID_PASSWORD":
-				console.log("Invalid password.");
+				message = "Invalid password.";
 				break;
 			case "USER_DISABLED":
-				console.log("User has been disabled.");
+				message = "User has been disabled.";
 				break;
 			case "TOO_MANY_ATTEMPTS_TRY_LATER":
-				console.log("Too many attempts.");
-			default:
-				console.log(err.message);
+				message = "Too many attempts.";
+				break;
+			case "WEAK_PASSWORD : Password should be at least 6 characters":
+				message = "Password should be at least 6 characters.";
+				break;
 		}
+		throw new Error(message);
 	}
 };
 
@@ -48,23 +53,22 @@ export const signIn = async (email, password) => {
 			{
 				"Content-Type": "application/json",
 			}
-		);	
+		);
 
 		return response.data;
 	} catch (err) {
+		let message = "There was an error handling your credentials";
 		switch (err.response.data.error.message) {
 			case "EMAIL_NOT_FOUND":
-				console.log("Email does not exist.");
+				message = "Email does not exist."
 				break;
 			case "INVALID_PASSWORD":
-				console.log("Invalid password.");
+				message = "Invalid password.";
 				break;
 			case "USER_DISABLED":
-				console.log("User has been disabled.");
+				message = "User has been disabled.";
 				break;
-			default:
-				console.log(err.message);
 		}
+		throw new Error(message);
 	}
 };
-
