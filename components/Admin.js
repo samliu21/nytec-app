@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Text, View, Button, Alert } from "react-native";
+import { Text, View, Button, Alert, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 
 import Colors from "../constants/Colors";
@@ -99,18 +99,19 @@ export default function Admin() {
 	};
 
 	return (
-		<View>
+		<View style={styles.container}>
 			<Text>Title</Text>
 			<Input
 				value={title}
 				onChangeText={titleChangeHandler}
 				placeholder="Title"
 			/>
-			<Text>Message</Text>
+			<Text style={styles.message}>Message</Text>
 			<Input
 				value={message}
 				onChangeText={messageChangeHandler}
 				placeholder="Message"
+				style={styles.messageInput}
 			/>
 			<Button
 				title="Send notification to all users"
@@ -120,3 +121,15 @@ export default function Admin() {
 		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	container: {
+		padding: 20,
+	},
+	message: {
+		marginTop: 20,
+	},
+	messageInput: {
+		marginBottom: 20,
+	},
+})

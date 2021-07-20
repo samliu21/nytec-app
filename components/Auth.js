@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { TextInput, View, Button, StyleSheet, Text, Alert } from "react-native";
+import React, { useState } from "react";
+import { View, Button, StyleSheet, Text, Alert } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import * as Notifications from "expo-notifications";
 
 import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/auth";
@@ -98,6 +97,7 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		flexDirection: "row",
 		justifyContent: "space-between",
+		marginTop: 20,
 	},
 	container: {
 		padding: 20,
