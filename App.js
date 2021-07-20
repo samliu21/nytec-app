@@ -16,7 +16,7 @@ export default function App() {
 }
 /*
 curl -H "Content-Type: application/json" -X POST "https://exp.host/--/api/v2/push/send" -d '{
-  "to": "ExponentPushToken[0ijG6YIvhIDJreHNT4vxMu]",
+  "to": "ExponentPushToken[4CmceLB3TJ3IuuFqx-3-Og]",
   "title":"hello",
   "body": "world"
 }'

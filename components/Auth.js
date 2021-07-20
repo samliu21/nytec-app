@@ -5,6 +5,7 @@ import * as Notifications from "expo-notifications";
 
 import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/auth";
+import Input from "./Input";
 
 export default function Auth() {
 	const [email, setEmail] = useState("");
@@ -55,41 +56,26 @@ export default function Auth() {
 		setRetypedPassword(text);
 	};
 
-	useEffect(() => {
-		const foregroundSubscription =
-			Notifications.addNotificationReceivedListener((notification) => {
-				console.log(notification);
-			});
-
-		return () => {
-			foregroundSubscription.remove();
-		};
-	}, []);
-
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>{isLogin ? "Login" : "Signup"}</Text>
-			<TextInput
+			<Input
 				value={email}
 				onChangeText={emailChangeHandler}
 				placeholder="Email"
-				autoCapitalize="none"
-				style={styles.input}
 			/>
-			<TextInput
+			<Input
 				value={password}
 				onChangeText={passwordChangeHandler}
 				placeholder="Password"
 				secureTextEntry
-				style={styles.input}
 			/>
 			{!isLogin && (
-				<TextInput
+				<Input
 					value={retypedPassword}
 					onChangeText={retypePasswordChangeHandler}
 					placeholder="Retype your password"
 					secureTextEntry
-					style={styles.input}
 				/>
 			)}
 			<View style={styles.buttonContainer}>

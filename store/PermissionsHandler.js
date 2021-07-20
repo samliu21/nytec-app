@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import * as Notifications from "expo-notifications";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as notificationActions from "./actions/notification";
 
 export default function PermissionsHandler(props) {
@@ -32,10 +32,19 @@ export default function PermissionsHandler(props) {
 			} catch (err) {
 				console.log(err.message);
 			}
-		}
+		};
 
 		notificationSetup();
-	});
+
+		const foregroundSubscription =
+			Notifications.addNotificationReceivedListener((notification) => {
+				console.log(notification);
+			});
+
+		return () => {
+			foregroundSubscription.remove();
+		};
+	}, []);
 
 	return props.children;
 }
