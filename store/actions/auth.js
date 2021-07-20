@@ -3,6 +3,7 @@ import axios from "axios";
 export const SIGNIN = "SIGNIN";
 export const SIGNUP = "SIGNUP";
 export const SET_ROLE = "SET_ROLE";
+export const LOGOUT = "LOGOUT";
 
 // Signup using Firebase's REST authentication API
 export const signUp = (email, password, pushToken) => {
@@ -29,6 +30,7 @@ export const signUp = (email, password, pushToken) => {
 				type: SIGNUP,
 				idToken: idToken,
 				userId: userId,
+				email: email,
 			});
 		} catch (err) {
 			let message = "There was an error handling your credentials";
@@ -83,6 +85,7 @@ export const signIn = (email, password, pushToken) => {
 				type: SIGNIN,
 				idToken: idToken,
 				userId: userId,
+				email: email,
 			});
 		} catch (err) {
 			let message = "There was an error handling your credentials";
@@ -99,6 +102,12 @@ export const signIn = (email, password, pushToken) => {
 			}
 			throw new Error(message);
 		}
+	};
+};
+
+export const logout = () => {
+	return {
+		type: LOGOUT,
 	};
 };
 

@@ -4,7 +4,6 @@ import { TextInput, StyleSheet } from "react-native";
 export default function Input(props) {
 	const { style } = props;
 	const finalStyle = style ? { ...styles.input, ...style } : styles.input;
-	console.log(finalStyle);
 
 	const [propsWithoutStyle, setPropsWithoutStyle] = useState({});
 
