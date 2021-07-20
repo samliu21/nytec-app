@@ -1,11 +1,33 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
+export const AUTHENTICATE = "AUTHENTICATE";
 export const SIGNIN = "SIGNIN";
 export const SIGNUP = "SIGNUP";
 export const SET_ROLE = "SET_ROLE";
 export const LOGOUT = "LOGOUT";
 export const AUTO_LOGIN = "AUTO_LOGIN";
+
+// Auto logout timer (upon token expiry)
+let timer;
+
+const authenticate = (idToken, userId, email, role, expiresIn) => {
+	return async (dispatch) => {
+		dispatch({
+			type: AUTHENTICATE,
+			idToken: idToken,
+			userId: userId,
+			email: email,
+		});
+
+		dispatch({
+			type: SET_ROLE,
+			role: role,
+		});
+
+		dispatch(setLogoutTimer(expiresIn));
+	};
+};
 
 // Signup using Firebase's REST authentication API
 export const signUp = (email, password, pushToken) => {
@@ -25,15 +47,23 @@ export const signUp = (email, password, pushToken) => {
 
 			const idToken = response.data.idToken;
 			const userId = response.data.localId;
+			const expirationTime = response.data.expiresIn;
+			const expiresIn = +expirationTime * 1000;
 
-			await sendToDatabase(false, userId, idToken, pushToken, email);
+			const expirationDate = new Date(
+				new Date().getTime() + expiresIn
+			).toISOString();
 
-			dispatch({
-				type: SIGNUP,
-				idToken: idToken,
-				userId: userId,
-				email: email,
-			});
+			const role = await sendToDatabase(
+				false,
+				userId,
+				idToken,
+				pushToken,
+				email,
+				expirationDate
+			);
+
+			dispatch(authenticate(idToken, userId, email, role, expiresIn));
 		} catch (err) {
 			let message = "There was an error handling your credentials";
 			switch (err.response.data.error.message) {
@@ -76,25 +106,23 @@ export const signIn = (email, password, pushToken) => {
 
 			const idToken = response.data.idToken;
 			const userId = response.data.localId;
+			const expirationTime = response.data.expiresIn;
+			const expiresIn = +expirationTime * 1000;
+
+			const expirationDate = new Date(
+				new Date().getTime() + expiresIn
+			).toISOString();
 
 			const role = await sendToDatabase(
 				true,
 				userId,
 				idToken,
 				pushToken,
-				email
+				email,
+				expirationDate
 			);
-			dispatch({
-				type: SET_ROLE,
-				role: role,
-			});
 
-			dispatch({
-				type: SIGNIN,
-				idToken: idToken,
-				userId: userId,
-				email: email,
-			});
+			dispatch(authenticate(idToken, userId, email, role, expiresIn));
 		} catch (err) {
 			let message = "There was an error handling your credentials";
 			switch (err.response.data.error.message) {
@@ -113,8 +141,25 @@ export const signIn = (email, password, pushToken) => {
 	};
 };
 
+const setLogoutTimer = (expirationTime) => {
+	return (dispatch) => {
+		timer = setTimeout(() => {
+			dispatch(logout());
+		}, expirationTime);
+	};
+};
+
+const clearTimer = () => {
+	if (timer) {
+		clearTimeout(timer);
+	}
+};
+
 // Logout (clear redux state)
 export const logout = () => {
+	AsyncStorage.removeItem("userData");
+	clearTimer();
+
 	return {
 		type: LOGOUT,
 	};
@@ -131,7 +176,14 @@ export const autoLogin = (idToken, userId, email, role) => {
 	};
 };
 
-const sendToDatabase = async (isLogin, userId, idToken, pushToken, email) => {
+const sendToDatabase = async (
+	isLogin,
+	userId,
+	idToken,
+	pushToken,
+	email,
+	expirationDate
+) => {
 	// User's role status (e.g. user, admin)
 	let role;
 
@@ -151,6 +203,7 @@ const sendToDatabase = async (isLogin, userId, idToken, pushToken, email) => {
 					userId: userId,
 					email: email,
 					role: role,
+					expirationDate: expirationDate,
 				})
 			);
 

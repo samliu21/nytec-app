@@ -67,6 +67,12 @@ export default function PermissionsHandler(props) {
 			const data = JSON.parse(jsonData);
 
 			if (data) {
+				const expirationDate = new Date(data.expirationDate);
+
+				if (expirationDate <= new Date()) {
+					setIsLoading(false);
+					return;
+				}
 				dispatch(
 					authActions.autoLogin(
 						data.idToken,

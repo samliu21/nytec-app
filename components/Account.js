@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,8 +12,6 @@ export default function Account() {
 
 	const logoutHandler = () => {
 		dispatch(authActions.logout());
-
-		AsyncStorage.removeItem("userData");
 	};
 
 	return (

@@ -1,4 +1,4 @@
-import { SIGNUP, SIGNIN, SET_ROLE, LOGOUT, AUTO_LOGIN } from "../actions/auth";
+import { SET_ROLE, LOGOUT, AUTO_LOGIN, AUTHENTICATE } from "../actions/auth";
 
 const initialState = {
 	idToken: null,
@@ -9,14 +9,7 @@ const initialState = {
 
 export default reducer = (state = initialState, action) => {
 	switch (action.type) {
-		case SIGNUP:
-			return {
-				...state,
-				idToken: action.idToken,
-				userId: action.userId,
-				email: action.email,
-			}
-		case SIGNIN:
+		case AUTHENTICATE:
 			return {
 				...state,
 				idToken: action.idToken,
