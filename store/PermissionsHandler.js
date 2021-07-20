@@ -4,6 +4,14 @@ import * as Notifications from "expo-notifications";
 import { useDispatch } from "react-redux";
 import * as notificationActions from "./actions/notification";
 
+Notifications.setNotificationHandler({
+	handleNotification: async () => ({
+		shouldShowAlert: true,
+		shouldPlaySound: true,
+		shouldSetBadge: false,
+	}),
+});
+
 export default function PermissionsHandler(props) {
 	const dispatch = useDispatch();
 
