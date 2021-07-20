@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useSelector } from "react-redux";
+import { Ionicons } from "@expo/vector-icons";
 
 import ButtonList from "../components/ButtonList";
 import Auth from "../components/Auth";
@@ -27,8 +28,8 @@ const AuthNavigator = () => {
 		<AuthNavigatorStack.Navigator screenOptions={defaultStyle}>
 			<AuthNavigatorStack.Screen name="Auth" component={Auth} />
 		</AuthNavigatorStack.Navigator>
-	)
-}
+	);
+};
 
 // Main app screen
 const ButtonNavigatorStack = createStackNavigator();
@@ -55,11 +56,34 @@ const AdminNavigator = () => {
 // Bottom Tab Navigator
 const MainAdminNavigatorBottomTabs = createBottomTabNavigator();
 
+const bottomTabBarOptions = {
+	activeTintColor: Colors.primary,
+	tabStyle: {
+		backgroundColor: Platform.OS === "android" ? Colors.primary : "white",
+	},
+	labelStyle: {
+		fontSize: 18,
+	},
+	showLabel: false,
+};
+
+const bottomTabBarScreenOptions = (navData) => ({
+	tabBarIcon: (tabInfo) =>
+		navData.route.name === "App" ? (
+			<Ionicons name="list" size={23} color={tabInfo.color} />
+		) : (
+			<Ionicons name="person" size={23} color={tabInfo.color} />
+		),
+});
+
 const MainAdminNavigator = () => {
 	return (
-		<MainAdminNavigatorBottomTabs.Navigator>
+		<MainAdminNavigatorBottomTabs.Navigator
+			tabBarOptions={bottomTabBarOptions}
+			screenOptions={bottomTabBarScreenOptions}
+		>
 			<MainAdminNavigatorBottomTabs.Screen
-				name="Button"
+				name="App"
 				component={ButtonNavigator}
 			/>
 			<MainAdminNavigatorBottomTabs.Screen
@@ -73,7 +97,6 @@ const MainAdminNavigator = () => {
 // Main function
 export default function Navigator() {
 	const role = useSelector((state) => state.auth.role);
-	console.log(role);
 
 	return (
 		<NavigationContainer>
@@ -82,9 +105,4 @@ export default function Navigator() {
 			{role === "admin" && <MainAdminNavigator />}
 		</NavigationContainer>
 	);
-	// return (
-	// 	<NavigationContainer>
-	// 		<Auth />
-	// 	</NavigationContainer>
-	// )
 }

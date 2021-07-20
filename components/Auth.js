@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import { TextInput, View, Button, StyleSheet, Text, Alert } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import * as Notifications from "expo-notifications";
-import { useNavigation } from "@react-navigation/core";
 
 import Colors from "../constants/Colors";
-import data from "../data/data";
 import * as authActions from "../store/actions/auth";
 
 export default function Auth() {
@@ -16,7 +14,6 @@ export default function Auth() {
 
 	const token = useSelector((state) => state.notification.pushToken);
 
-	const navigation = useNavigation();
 	const dispatch = useDispatch();
 
 	const submitHandler = async () => {
