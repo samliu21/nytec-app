@@ -1,9 +1,11 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 export const SIGNIN = "SIGNIN";
 export const SIGNUP = "SIGNUP";
 export const SET_ROLE = "SET_ROLE";
 export const LOGOUT = "LOGOUT";
+export const AUTO_LOGIN = "AUTO_LOGIN";
 
 // Signup using Firebase's REST authentication API
 export const signUp = (email, password, pushToken) => {
@@ -24,7 +26,7 @@ export const signUp = (email, password, pushToken) => {
 			const idToken = response.data.idToken;
 			const userId = response.data.localId;
 
-			await sendToDatabase(false, userId, idToken, pushToken);
+			await sendToDatabase(false, userId, idToken, pushToken, email);
 
 			dispatch({
 				type: SIGNUP,
@@ -75,7 +77,13 @@ export const signIn = (email, password, pushToken) => {
 			const idToken = response.data.idToken;
 			const userId = response.data.localId;
 
-			const role = await sendToDatabase(true, userId, idToken, pushToken);
+			const role = await sendToDatabase(
+				true,
+				userId,
+				idToken,
+				pushToken,
+				email
+			);
 			dispatch({
 				type: SET_ROLE,
 				role: role,
@@ -105,13 +113,25 @@ export const signIn = (email, password, pushToken) => {
 	};
 };
 
+// Logout (clear redux state)
 export const logout = () => {
 	return {
 		type: LOGOUT,
 	};
 };
 
-const sendToDatabase = async (isLogin, userId, idToken, pushToken) => {
+// Auth login
+export const autoLogin = (idToken, userId, email, role) => {
+	return {
+		type: AUTO_LOGIN,
+		idToken: idToken,
+		userId: userId,
+		email: email,
+		role: role,
+	};
+};
+
+const sendToDatabase = async (isLogin, userId, idToken, pushToken, email) => {
 	// User's role status (e.g. user, admin)
 	let role;
 
@@ -122,6 +142,17 @@ const sendToDatabase = async (isLogin, userId, idToken, pushToken) => {
 			);
 
 			role = loginResponse.data ? loginResponse.data.role : "user";
+
+			// Save data to local storage
+			AsyncStorage.setItem(
+				"userData",
+				JSON.stringify({
+					idToken: idToken,
+					userId: userId,
+					email: email,
+					role: role,
+				})
+			);
 
 			if (!loginResponse.data && !isLogin) {
 				await axios.put(

@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import * as Notifications from "expo-notifications";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useDispatch } from "react-redux";
 import * as notificationActions from "./actions/notification";
+import * as authActions from "./actions/auth";
 
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
@@ -52,6 +54,26 @@ export default function PermissionsHandler(props) {
 		return () => {
 			foregroundSubscription.remove();
 		};
+	}, []);
+
+	useEffect(() => {
+		const getData = async () => {
+			const jsonData = await AsyncStorage.getItem("userData");
+			const data = JSON.parse(jsonData);
+
+			if (data) {
+				dispatch(
+					authActions.autoLogin(
+						data.idToken,
+						data.userId,
+						data.email,
+						data.role
+					)
+				);
+			}
+		};
+
+		getData();
 	}, []);
 
 	return props.children;
