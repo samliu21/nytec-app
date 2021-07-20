@@ -40,12 +40,6 @@ export default function Auth() {
 			);
 			return;
 		}
-
-		// Redirect to home screen
-		navigation.push("List", {
-			children: data.children,
-			name: data.name,
-		});
 	};
 
 	const switchModeHandler = () => {

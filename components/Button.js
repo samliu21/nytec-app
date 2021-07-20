@@ -29,7 +29,6 @@ export default function Button(props) {
 
 		// If item is a link, open the link if supported
 		const supported = await Linking.canOpenURL(item.url);
-		console.log(supported);
 		if (supported) {
 			Linking.openURL(item.url);
 		} else {

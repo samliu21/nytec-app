@@ -3,7 +3,7 @@ import { SIGNUP, SIGNIN, SET_ROLE } from "../actions/auth";
 const initialState = {
 	idToken: null,
 	userId: null,
-	role: "user",
+	role: null,
 };
 
 export default reducer = (state = initialState, action) => {
@@ -21,7 +21,6 @@ export default reducer = (state = initialState, action) => {
 				userId: action.userId,
 			}
 		case SET_ROLE:
-			console.log("Hello?");
 			return {
 				...state,
 				role: action.role,
