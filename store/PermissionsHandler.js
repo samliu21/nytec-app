@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator } from "react-native";
 import * as Notifications from "expo-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useDispatch } from "react-redux";
 import * as notificationActions from "./actions/notification";
 import * as authActions from "./actions/auth";
+import { useSelector } from "react-redux";
 
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
@@ -15,6 +17,9 @@ Notifications.setNotificationHandler({
 });
 
 export default function PermissionsHandler(props) {
+	const [isLoading, setIsLoading] = useState(true);
+	const role = useSelector((state) => state.auth.role);
+
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -70,11 +75,18 @@ export default function PermissionsHandler(props) {
 						data.role
 					)
 				);
+			} else {
+				setIsLoading(false);
 			}
 		};
 
 		getData();
 	}, []);
 
-	return props.children;
+	if (role && isLoading) {
+		setIsLoading(false);
+	}
+
+	// return props.children;
+	return isLoading ? <ActivityIndicator /> : props.children;
 }
