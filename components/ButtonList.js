@@ -3,16 +3,13 @@ import {
 	StyleSheet,
 	SafeAreaView,
 	FlatList,
-	Dimensions,
 	ImageBackground,
 } from "react-native";
 
 import Button from "./Button";
 import { flatListWidth } from "../constants/Sizes";
 import data from "../data/data";
-import background from "../constants/images/appBackground.png";
-
-const width = Dimensions.get("screen").width;
+import Background from "./Background";
 
 export default function ButtonList(props) {
 	// When ButtonList is called initially from the navigator, it won't have props
@@ -32,7 +29,7 @@ export default function ButtonList(props) {
 				? props.route.params.name
 				: data.name,
 		});
-	});
+	}, [props.navigation.setOptions]);
 
 	// Render function for home screen
 	// Maps each data item to a LinkButton
@@ -42,7 +39,7 @@ export default function ButtonList(props) {
 
 	// Render a FlatList that becomes a grid with 3 columns
 	return (
-		<ImageBackground source={background} style={styles.background}>
+		<Background>
 			<SafeAreaView style={styles.container}>
 				{/* <Image source={background} /> */}
 				<FlatList
@@ -53,7 +50,7 @@ export default function ButtonList(props) {
 					contentContainerStyle={styles.flatList}
 				/>
 			</SafeAreaView>
-		</ImageBackground>
+		</Background>
 	);
 }
 
@@ -67,6 +64,6 @@ const styles = StyleSheet.create({
 	},
 	flatList: {
 		width: flatListWidth,
-		marginTop: "5%",
+		marginTop: "10%",
 	},
 });

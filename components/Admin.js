@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 
 import Colors from "../constants/Colors";
 import Input from "./Input";
+import CustomButton from "./CustomButton";
+import Background from "./Background";
 
 export default function Admin() {
 	const [title, setTitle] = useState("");
@@ -99,26 +101,29 @@ export default function Admin() {
 	};
 
 	return (
-		<View style={styles.container}>
-			<Text>Title</Text>
-			<Input
-				value={title}
-				onChangeText={titleChangeHandler}
-				placeholder="Title"
-			/>
-			<Text style={styles.message}>Message</Text>
-			<Input
-				value={message}
-				onChangeText={messageChangeHandler}
-				placeholder="Message"
-				style={styles.messageInput}
-			/>
-			<Button
-				title="Send notification to all users"
-				color={Colors.primary}
-				onPress={notificationClickHandler}
-			/>
-		</View>
+		<Background>
+			<View style={styles.container}>
+				<Text style={styles.label}>Title</Text>
+				<Input
+					value={title}
+					onChangeText={titleChangeHandler}
+					placeholder="Title"
+				/>
+				<Text style={styles.label}>Message</Text>
+				<Input
+					value={message}
+					onChangeText={messageChangeHandler}
+					placeholder="Message"
+					style={styles.messageInput}
+				/>
+				<CustomButton
+					color={Colors.primary}
+					onPress={notificationClickHandler}
+				>
+					Send notification
+				</CustomButton>
+			</View>
+		</Background>
 	);
 }
 
@@ -126,10 +131,12 @@ const styles = StyleSheet.create({
 	container: {
 		padding: 20,
 	},
-	message: {
+	label: {
 		marginTop: 20,
+		color: "white",
+		fontSize: 17,
 	},
 	messageInput: {
-		marginBottom: 20,
+		marginBottom: 50,
 	},
-})
+});

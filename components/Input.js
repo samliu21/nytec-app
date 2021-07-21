@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { TextInput, StyleSheet } from "react-native";
 
+import Colors from "../constants/Colors";
+
 export default function Input(props) {
 	const { style } = props;
 	const finalStyle = style ? { ...styles.input, ...style } : styles.input;
@@ -29,8 +31,11 @@ export default function Input(props) {
 const styles = StyleSheet.create({
 	input: {
 		borderWidth: 2,
-		padding: 10,
+		borderColor: Colors.accent,
+		padding: 8,
 		marginTop: 15,
 		fontSize: 14,
+		color: Colors.accent,
+		backgroundColor: Colors.light,
 	},
 });

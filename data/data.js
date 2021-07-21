@@ -39,7 +39,7 @@ import 美國與其他國家漢神之友 from "../constants/images/美國與其�
 import 香港漢神之友 from "../constants/images/香港漢神之友.png";
 import 加拿大漢神之友 from "../constants/images/加拿大漢神之友.png";
 
-export default new Category(0, "Home", null, [
+export default new Category(0, "主页", null, [
 	new Url(1, "紐神", 紐神, "https://nytec.net"),
 
 	new Category(2, "漢神", 漢神, [

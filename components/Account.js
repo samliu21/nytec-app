@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import Colors from "../constants/Colors";
 
 import * as authActions from "../store/actions/auth";
+import Background from "./Background";
+import CustomButton from "./CustomButton";
 
 export default function Account() {
 	const email = useSelector((state) => state.auth.email);
@@ -15,19 +16,23 @@ export default function Account() {
 	};
 
 	return (
-		<View style={styles.container}>
-			<Text>You are logged in as {email}.</Text>
-			<Button
-				title="Logout"
-				onPress={logoutHandler}
-				color={Colors.primary}
-			/>
-		</View>
+		<Background>
+			<View style={styles.container}>
+				<Text style={styles.loginText}>
+					You are logged in as {email}.
+				</Text>
+				<CustomButton onPress={logoutHandler}>Logout</CustomButton>
+			</View>
+		</Background>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
 		padding: 15,
+	},
+	loginText: {
+		marginBottom: 15,
+		color: "white",
 	},
 });

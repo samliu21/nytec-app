@@ -6,7 +6,7 @@ const screenWidth = Dimensions.get("screen").width;
 export const flatListWidth = screenWidth * 0.95;
 
 // Width of each button
-export const buttonWidth = flatListWidth / 3.2;
+export const buttonWidth = flatListWidth / 4;
 
 // Since margin is horizontal, there are six places for margin:
 // Left & right: 1 each, between: 2; total is six

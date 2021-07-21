@@ -16,7 +16,7 @@ import Colors from "../constants/Colors";
 const defaultStyle = {
 	headerTintColor: Platform.OS === "ios" ? Colors.primary : "white",
 	headerStyle: {
-		backgroundColor: Platform.OS === "ios" ? "white" : Colors.primary,
+		backgroundColor: Platform.OS === "ios" ? Colors.light : Colors.primary,
 	},
 	headerTitleAlign: "center",
 };
@@ -68,7 +68,7 @@ const AdminNavigator = () => {
 const bottomTabBarOptions = {
 	activeTintColor: Colors.primary,
 	tabStyle: {
-		backgroundColor: Platform.OS === "android" ? Colors.primary : "white",
+		backgroundColor: Platform.OS === "android" ? Colors.primary : Colors.light,
 	},
 	labelStyle: {
 		fontSize: 18,

@@ -1,12 +1,16 @@
-import React, { useState } from "react";
-import { View, Button, StyleSheet, Text, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, Alert, Image, Dimensions } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
-import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/auth";
 import Input from "./Input";
+import CustomButton from "./CustomButton";
+import Background from "./Background";
+import logo from "../constants/images/紐神.png";
 
-export default function Auth() {
+const width = Dimensions.get("screen").width;
+
+export default function Auth(props) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [retypedPassword, setRetypedPassword] = useState("");
@@ -15,6 +19,13 @@ export default function Auth() {
 	const token = useSelector((state) => state.notification.pushToken);
 
 	const dispatch = useDispatch();
+
+	// Sets title in the navigation bar
+	useEffect(() => {
+		props.navigation.setOptions({
+			headerTitle: isLogin ? "Login" : "Signup",
+		});
+	}, [props.navigation.setOptions, isLogin]);
 
 	const submitHandler = async () => {
 		// Check that passwords match
@@ -56,40 +67,36 @@ export default function Auth() {
 	};
 
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>{isLogin ? "Login" : "Signup"}</Text>
-			<Input
-				value={email}
-				onChangeText={emailChangeHandler}
-				placeholder="Email"
-			/>
-			<Input
-				value={password}
-				onChangeText={passwordChangeHandler}
-				placeholder="Password"
-				secureTextEntry
-			/>
-			{!isLogin && (
+		<Background>
+			<Image source={require("../constants/images/紐神.png")} style={styles.image} />
+			<View style={styles.container}>
 				<Input
-					value={retypedPassword}
-					onChangeText={retypePasswordChangeHandler}
-					placeholder="Retype your password"
+					value={email}
+					onChangeText={emailChangeHandler}
+					placeholder="Email"
+				/>
+				<Input
+					value={password}
+					onChangeText={passwordChangeHandler}
+					placeholder="Password"
 					secureTextEntry
 				/>
-			)}
-			<View style={styles.buttonContainer}>
-				<Button
-					title="Submit"
-					onPress={submitHandler}
-					color={Colors.primary}
-				/>
-				<Button
-					title={isLogin ? "Signup" : "Login"}
-					onPress={switchModeHandler}
-					color={Colors.primary}
-				/>
+				{!isLogin && (
+					<Input
+						value={retypedPassword}
+						onChangeText={retypePasswordChangeHandler}
+						placeholder="Retype your password"
+						secureTextEntry
+					/>
+				)}
+				<View style={styles.buttonContainer}>
+					<CustomButton onPress={submitHandler}>Submit</CustomButton>
+					<CustomButton onPress={switchModeHandler}>
+						{isLogin ? "Signup" : "Login"}
+					</CustomButton>
+				</View>
 			</View>
-		</View>
+		</Background>
 	);
 }
 
@@ -97,20 +104,19 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		flexDirection: "row",
 		justifyContent: "space-between",
-		marginTop: 20,
+		marginTop: 30,
 	},
 	container: {
 		padding: 20,
+	},
+	image: {
+		width: width / 2,
+		height: width / 2,
 	},
 	input: {
 		borderWidth: 2,
 		padding: 10,
 		margin: 10,
 		fontSize: 14,
-	},
-	title: {
-		textAlign: "center",
-		fontSize: 25,
-		marginBottom: 10,
 	},
 });

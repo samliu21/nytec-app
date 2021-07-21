@@ -5,10 +5,11 @@ import {
 	Linking,
 	Alert,
 	TouchableOpacity,
+	Text,
+	View,
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 
-import Colors from "../constants/Colors";
 import { buttonWidth, horizontalMargin } from "../constants/Sizes";
 
 export default function Button(props) {
@@ -37,26 +38,32 @@ export default function Button(props) {
 	};
 
 	return (
-		<TouchableOpacity style={styles.container} onPress={clickHandler}>
-			{/* <Text style={styles.name}>{item.name}</Text>
-			<Text style={styles.name}>{item.url ? "Link" : "Nav"}</Text> */}
-			<Image source={item.image} style={styles.image} />
-		</TouchableOpacity>
+		<View>
+			<TouchableOpacity style={styles.touchable} onPress={clickHandler}>
+				<Image source={item.image} style={styles.image} />
+			</TouchableOpacity>
+			<Text style={styles.name}>{item.name}</Text>
+		</View>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
-		backgroundColor: Colors.primary,
+	touchable: {
+		marginHorizontal: horizontalMargin,
 		width: buttonWidth,
 		aspectRatio: 1,
-		borderRadius: 15,
 		justifyContent: "center",
 		alignItems: "center",
-		margin: horizontalMargin,
+		marginVertical: 10,
 	},
 	image: {
 		width: "100%",
 		height: "100%",
+	},
+	name: {
+		textAlign: "center",
+		marginBottom: 10,
+		color: "white",
+		fontWeight: "bold",
 	},
 });
