@@ -1,7 +1,7 @@
 import React from "react";
 import {
 	StyleSheet,
-	Text,
+	Image,
 	Linking,
 	Alert,
 	TouchableOpacity,
@@ -38,8 +38,9 @@ export default function Button(props) {
 
 	return (
 		<TouchableOpacity style={styles.container} onPress={clickHandler}>
-			<Text style={styles.name}>{item.name}</Text>
-			<Text style={styles.name}>{item.url ? "Link" : "Nav"}</Text>
+			{/* <Text style={styles.name}>{item.name}</Text>
+			<Text style={styles.name}>{item.url ? "Link" : "Nav"}</Text> */}
+			<Image source={item.image} style={styles.image} />
 		</TouchableOpacity>
 	);
 }
@@ -53,14 +54,9 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		margin: horizontalMargin,
-		padding: "2%",
 	},
-	link: {
-		color: "white",
-	},
-	name: {
-		textAlign: "center",
-		marginBottom: 5,
-		color: "white",
+	image: {
+		width: "100%",
+		height: "100%",
 	},
 });

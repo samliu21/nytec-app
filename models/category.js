@@ -1,9 +1,10 @@
-export default class Category {
+import Model from "./model";
+
+export default class Category extends Model {
 	type = "CATEGORY";
 
-	constructor(id, name, children) {
-		this.id = id;
-		this.name = name;
+	constructor(id, name, image, children) {
+		super(id, name, image);
 		this.children = children;
 	}
 }

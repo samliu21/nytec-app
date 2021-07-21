@@ -1,9 +1,10 @@
-export default class Url {
+import Model from "./model";
+
+export default class Url extends Model {
 	type = "URL";
 
-	constructor(id, name, url) {
-		this.id = id;
-		this.name = name;
+	constructor(id, name, image, url) {
+		super(id, name, image);
 		this.url = url;
 	}
 }
