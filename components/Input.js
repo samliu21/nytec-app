@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 		borderWidth: 2,
 		borderColor: Colors.accent,
 		padding: 10,
-		marginTop: 15,
+		marginTop: 10,
 		fontSize: 14,
 		color: Colors.accent,
 		backgroundColor: Colors.light,

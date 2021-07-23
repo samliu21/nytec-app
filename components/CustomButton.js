@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
 		paddingVertical: "2.5%",
 		paddingHorizontal: "4%",
 		width: "auto",
+		alignSelf: "center",
 	},
 	text: {
 		color: Colors.accent,

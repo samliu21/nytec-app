@@ -71,7 +71,7 @@ export default function Admin() {
 			}
 		}
 		Alert.alert(
-			"Result",
+			"Success!",
 			errorCount === 1
 				? `There was ${errorCount} failed notification.`
 				: `There were ${errorCount} failed notifications.`
@@ -82,7 +82,7 @@ export default function Admin() {
 		const confirmContent = () => {
 			Alert.alert(
 				"Your Message",
-				`Title: ${title}\n\nMessage: ${message}`,
+				`Title: ${title}\nMessage: ${message}`,
 				[
 					{ text: "Cancel", style: "destructive" },
 					{ text: "Send", onPress: sendNotification },
@@ -132,11 +132,12 @@ const styles = StyleSheet.create({
 		padding: 20,
 	},
 	label: {
-		marginTop: 20,
+		marginTop: 15,
 		color: "white",
 		fontSize: 17,
+		fontWeight: "500",
 	},
 	messageInput: {
-		marginBottom: 50,
+		marginBottom: 30,
 	},
 });
