@@ -38,7 +38,7 @@ const AccountNavigatorStack = createStackNavigator();
 const AccountNavigator = () => {
 	return (
 		<AccountNavigatorStack.Navigator screenOptions={defaultStyle}>
-			<AccountNavigatorStack.Screen name="Account" component={Account} />
+			<AccountNavigatorStack.Screen name="帐户" component={Account} />
 		</AccountNavigatorStack.Navigator>
 	);
 };
@@ -60,7 +60,7 @@ const AdminNavigatorStack = createStackNavigator();
 const AdminNavigator = () => {
 	return (
 		<AdminNavigatorStack.Navigator screenOptions={defaultStyle}>
-			<AdminNavigatorStack.Screen name="Admin" component={Admin} />
+			<AdminNavigatorStack.Screen name="行政" component={Admin} />
 		</AdminNavigatorStack.Navigator>
 	);
 };

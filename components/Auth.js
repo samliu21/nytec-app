@@ -7,7 +7,6 @@ import * as authActions from "../store/actions/auth";
 import Input from "./Input";
 import CustomButton from "./CustomButton";
 import Background from "./Background";
-import logo from "../constants/images/紐神.png";
 
 const width = Dimensions.get("screen").width;
 
@@ -24,7 +23,7 @@ export default function Auth(props) {
 	// Sets title in the navigation bar
 	useEffect(() => {
 		props.navigation.setOptions({
-			headerTitle: isLogin ? "Login" : "Signup",
+			headerTitle: isLogin ? "登录" : "报名",
 		});
 	}, [props.navigation.setOptions, isLogin]);
 
