@@ -7,6 +7,7 @@ import * as authActions from "../store/actions/auth";
 import Input from "./Input";
 import CustomButton from "./CustomButton";
 import Background from "./Background";
+import Loading from "./Loading";
 
 const width = Dimensions.get("screen").width;
 
@@ -15,6 +16,7 @@ export default function Auth(props) {
 	const [password, setPassword] = useState("");
 	const [retypedPassword, setRetypedPassword] = useState("");
 	const [isLogin, setIsLogin] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const token = useSelector((state) => state.notification.pushToken);
 
@@ -34,6 +36,7 @@ export default function Auth(props) {
 			return;
 		}
 
+		setIsLoading(true);
 		if (isLogin) {
 			try {
 				const response = await axios.post(
@@ -109,6 +112,7 @@ export default function Auth(props) {
 				Alert.alert("Error", message);
 			}
 		}
+		setIsLoading(false);
 	};
 
 	const switchModeHandler = () => {
@@ -161,6 +165,7 @@ export default function Auth(props) {
 						{isLogin ? "Signup" : "Login"}
 					</CustomButton>
 				</View>
+				{isLoading && <Loading />}
 			</View>
 		</Background>
 	);

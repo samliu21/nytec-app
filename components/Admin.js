@@ -42,9 +42,12 @@ export default function Admin() {
 			console.log(err.message);
 		}
 
-		// Send all push tokens
+		Alert.alert("Starting!");
+		const failedTokens = [];
 		let errorCount = 0;
-		for (const token of tokenList) {
+
+		// Send all push tokens
+		const send = async (token) => {
 			try {
 				await axios.post(
 					"https://exp.host/--/api/v2/push/send",
@@ -66,16 +69,33 @@ export default function Admin() {
 				console.log(
 					`There was an error sending notification with push token: ${token}`
 				);
+				throw err;
+			}
+		};
+
+		// Iterate through all unique tokens and send to Expo push notification API
+		for (const token of tokenList) {
+			try {
+				await send(token);
+			} catch (err) {
+				failedTokens.push(token);
 
 				++errorCount;
 			}
 		}
+
+		// Indicate how many failed notifications
 		Alert.alert(
 			"Success!",
 			errorCount === 1
 				? `There was ${errorCount} failed notification.`
 				: `There were ${errorCount} failed notifications.`
 		);
+
+		// Attempt to resend failed tokens
+		for (const token of failedTokens) {
+			await send(token);
+		}
 	};
 
 	const notificationClickHandler = () => {

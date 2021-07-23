@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 		marginTop: 10,
 		fontSize: 14,
-		color: Colors.accent,
+		color: "black",
 		backgroundColor: Colors.light,
 	},
 });
