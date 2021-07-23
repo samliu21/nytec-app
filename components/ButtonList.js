@@ -41,7 +41,6 @@ export default function ButtonList(props) {
 	return (
 		<Background>
 			<SafeAreaView style={styles.container}>
-				{/* <Image source={background} /> */}
 				<FlatList
 					data={items}
 					renderItem={renderButton}
