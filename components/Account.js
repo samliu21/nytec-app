@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 		shadowOffset: { width: 0, height: 3 },
         shadowRadius: 6,
         shadowOpacity: 0.5,
-        elevation: 5,
+        elevation: 10,
 		shadowColor: "white",
 	},
 	loginText: {

@@ -30,8 +30,8 @@ export default function Input(props) {
 
 const styles = StyleSheet.create({
 	input: {
-		borderWidth: 2,
-		borderColor: Colors.accent,
+		// borderWidth: 2,
+		// borderColor: Colors.accent,
 		padding: 10,
 		marginTop: 10,
 		fontSize: 14,

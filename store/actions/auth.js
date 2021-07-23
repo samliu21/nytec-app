@@ -63,7 +63,6 @@ export const signUp = (response, pushToken) => {
 export const signIn = (response, pushToken) => {
 	return async (dispatch) => {
 		try {
-			console.log(response.data);
 			const idToken = response.data.idToken;
 			const userId = response.data.localId;
 			const email = response.data.email;
