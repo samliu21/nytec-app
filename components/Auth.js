@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Alert, Image, Dimensions } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
@@ -34,19 +35,80 @@ export default function Auth(props) {
 			return;
 		}
 
-		// Try to login or signup
-		try {
-			if (isLogin) {
-				dispatch(authActions.signIn(email, password, token));
-			} else {
-				dispatch(authActions.signUp(email, password, token));
+		if (isLogin) {
+			try {
+				const response = await axios.post(
+					"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
+					{
+						email: email,
+						password: password,
+						returnSecureToken: true,
+					},
+					{
+						"Content-Type": "application/json",
+					}
+				);
+
+				dispatch(authActions.signIn(response, token));
+			} catch (err) {
+				let message = "There was an error handling your credentials.";
+				// console.dir(err.response.data.error.message);
+				if (err.response) {
+					switch (err.response.data.error.message) {
+						// Login errors
+						case "EMAIL_NOT_FOUND":
+							message = "Email does not exist.";
+							break;
+						case "INVALID_PASSWORD":
+							message = "Invalid password.";
+							break;
+						case "USER_DISABLED":
+							message = "User has been disabled.";
+							break;
+					}
+				}
+				Alert.alert("Error", message);
 			}
-		} catch (err) {
-			Alert.alert(
-				"Error",
-				err.message ?? "There was an error handling your credentials"
-			);
-			return;
+		} else {
+			try {
+				const response = await axios.post(
+					"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
+					{
+						email: email,
+						password: password,
+						returnSecureToken: true,
+					},
+					{
+						"Content-Type": "application/json",
+					}
+				);
+				dispatch(authActions.signUp(response, token));
+			} catch (err) {
+				// Error handling
+				let message = "There was an error handling your credentials.";
+				if (err.response) {
+					switch (err.response.data.error.message) {
+						case "EMAIL_EXISTS":
+							message = "Email already exists.";
+							break;
+						case "INVALID_PASSWORD":
+							message = "Invalid password.";
+							break;
+						case "USER_DISABLED":
+							message = "User has been disabled.";
+							break;
+						case "TOO_MANY_ATTEMPTS_TRY_LATER":
+							message = "Too many attempts.";
+							break;
+						case "WEAK_PASSWORD : Password should be at least 6 characters":
+							message =
+								"Password should be at least 6 characters.";
+							break;
+					}
+				}
+
+				Alert.alert("Error", message);
+			}
 		}
 	};
 
@@ -68,8 +130,13 @@ export default function Auth(props) {
 
 	return (
 		<Background>
-			<Image source={require("../constants/images/紐神.png")} style={styles.image} />
 			<View style={styles.container}>
+				<View style={styles.imageContainer}>
+					<Image
+						source={require("../constants/images/紐神.png")}
+						style={styles.image}
+					/>
+				</View>
 				<Input
 					value={email}
 					onChangeText={emailChangeHandler}
@@ -112,6 +179,10 @@ const styles = StyleSheet.create({
 	image: {
 		width: width / 2,
 		height: width / 2,
+	},
+	imageContainer: {
+		alignItems: "center",
+		marginBottom: "10%",
 	},
 	input: {
 		borderWidth: 2,

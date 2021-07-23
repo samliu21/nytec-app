@@ -38,23 +38,29 @@ export default function Button(props) {
 	};
 
 	return (
-		<View>
-			<TouchableOpacity style={styles.touchable} onPress={clickHandler}>
+		<View style={styles.container}>
+			{/* <TouchableOpacity style={styles.touchable} onPress={clickHandler}> */}
 				<Image source={item.image} style={styles.image} />
-			</TouchableOpacity>
-			<Text style={styles.name}>{item.name}</Text>
+			{/* </TouchableOpacity> */}
+			<Text style={styles.name}>
+				{item.name}
+			</Text>
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
-	touchable: {
+	container: {
 		marginHorizontal: horizontalMargin,
 		width: buttonWidth,
-		aspectRatio: 1,
-		justifyContent: "center",
 		alignItems: "center",
-		marginVertical: 10,
+		justifyContent: "center",
+		marginVertical: 0,
+		aspectRatio: 1,
+	},
+	touchable: {
+		width: "100%",
+		height: "100%",
 	},
 	image: {
 		width: "100%",
@@ -62,7 +68,6 @@ const styles = StyleSheet.create({
 	},
 	name: {
 		textAlign: "center",
-		marginBottom: 10,
 		color: "white",
 		fontWeight: "bold",
 	},

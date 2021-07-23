@@ -30,23 +30,12 @@ const authenticate = (idToken, userId, email, role, expiresIn) => {
 };
 
 // Signup using Firebase's REST authentication API
-export const signUp = (email, password, pushToken) => {
+export const signUp = (response, pushToken) => {
 	return async (dispatch) => {
 		try {
-			const response = await axios.post(
-				"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
-				{
-					email: email,
-					password: password,
-					returnSecureToken: true,
-				},
-				{
-					"Content-Type": "application/json",
-				}
-			);
-
 			const idToken = response.data.idToken;
 			const userId = response.data.localId;
+			const email = response.data.email;
 			const expirationTime = response.data.expiresIn;
 			const expiresIn = +expirationTime * 1000;
 
@@ -65,47 +54,19 @@ export const signUp = (email, password, pushToken) => {
 
 			dispatch(authenticate(idToken, userId, email, role, expiresIn));
 		} catch (err) {
-			let message = "There was an error handling your credentials";
-			switch (err.response.data.error.message) {
-				case "EMAIL_EXISTS":
-					message = "Email already exists.";
-					break;
-				case "INVALID_PASSWORD":
-					message = "Invalid password.";
-					break;
-				case "USER_DISABLED":
-					message = "User has been disabled.";
-					break;
-				case "TOO_MANY_ATTEMPTS_TRY_LATER":
-					message = "Too many attempts.";
-					break;
-				case "WEAK_PASSWORD : Password should be at least 6 characters":
-					message = "Password should be at least 6 characters.";
-					break;
-			}
-			throw new Error(message);
+			console.log(err.message);
 		}
 	};
 };
 
 // Sign in using Firebase's REST authentication API
-export const signIn = (email, password, pushToken) => {
+export const signIn = (response, pushToken) => {
 	return async (dispatch) => {
 		try {
-			const response = await axios.post(
-				"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
-				{
-					email: email,
-					password: password,
-					returnSecureToken: true,
-				},
-				{
-					"Content-Type": "application/json",
-				}
-			);
-
+			console.log(response.data);
 			const idToken = response.data.idToken;
 			const userId = response.data.localId;
+			const email = response.data.email;
 			const expirationTime = response.data.expiresIn;
 			const expiresIn = +expirationTime * 1000;
 
@@ -124,19 +85,7 @@ export const signIn = (email, password, pushToken) => {
 
 			dispatch(authenticate(idToken, userId, email, role, expiresIn));
 		} catch (err) {
-			let message = "There was an error handling your credentials";
-			switch (err.response.data.error.message) {
-				case "EMAIL_NOT_FOUND":
-					message = "Email does not exist.";
-					break;
-				case "INVALID_PASSWORD":
-					message = "Invalid password.";
-					break;
-				case "USER_DISABLED":
-					message = "User has been disabled.";
-					break;
-			}
-			throw new Error(message);
+			console.log(err.message);
 		}
 	};
 };
