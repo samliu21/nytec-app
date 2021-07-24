@@ -7,12 +7,37 @@ export const SIGNUP = "SIGNUP";
 export const SET_ROLE = "SET_ROLE";
 export const LOGOUT = "LOGOUT";
 export const AUTO_LOGIN = "AUTO_LOGIN";
+export const SET_EMAIL_VERIFIED = "SET_EMAIL_VERIFIED";
 
 // Auto logout timer (upon token expiry)
 let timer;
 
+export const setEmailVerified = (value) => {
+	return async (dispatch) => {
+		dispatch({
+			type: SET_EMAIL_VERIFIED,
+			emailVerified: value,
+		});
+	};
+};
+
 const authenticate = (idToken, userId, email, role, expiresIn) => {
 	return async (dispatch) => {
+		try {
+			const verify = await axios.post(
+				"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
+				{
+					idToken: idToken,
+				}
+			);
+
+			const emailVerified = verify.data.users[0].emailVerified;
+
+			dispatch(setEmailVerified(emailVerified));
+		} catch (err) {
+			console.log(err.message);
+		}
+
 		dispatch({
 			type: AUTHENTICATE,
 			idToken: idToken,

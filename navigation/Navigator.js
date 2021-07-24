@@ -1,5 +1,4 @@
 import React from "react";
-import { Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -11,6 +10,7 @@ import Auth from "../components/Auth";
 import Admin from "../components/Admin";
 import Account from "../components/Account";
 import Colors from "../constants/Colors";
+import VerifyEmail from "../components/VerifyEmail";
 
 // Default stack navigator header style
 const defaultStyle = {
@@ -65,6 +65,20 @@ const AdminNavigator = () => {
 	);
 };
 
+// Verify email screen
+const VerifyNavigatorStack = createStackNavigator();
+
+const VerifyNavigator = () => {
+	return (
+		<VerifyNavigatorStack.Navigator screenOptions={defaultStyle}>
+			<VerifyNavigatorStack.Screen
+				name="Verify Email"
+				component={VerifyEmail}
+			/>
+		</VerifyNavigatorStack.Navigator>
+	);
+};
+
 const bottomTabBarOptions = {
 	activeTintColor: Colors.primary,
 	tabStyle: {
@@ -83,23 +97,23 @@ const bottomTabBarScreenOptions = (navData) => ({
 		} else if (navData.route.name === "Account") {
 			return <Ionicons name="person" size={23} color={tabInfo.color} />;
 		} else {
-			return <Ionicons name="key" size={23} color={tabInfo.color} />
+			return <Ionicons name="key" size={23} color={tabInfo.color} />;
 		}
-	}
+	},
 });
 
-// Main User Navigator 
+// Main User Navigator
 const MainUserNavigatorBottomTabs = createBottomTabNavigator();
 
-const MainUserNavigator = () => {
+const MainUserNavigator = (props) => {
 	return (
 		<MainUserNavigatorBottomTabs.Navigator
 			tabBarOptions={bottomTabBarOptions}
 			screenOptions={bottomTabBarScreenOptions}
 		>
 			<MainUserNavigatorBottomTabs.Screen
-				name="App"
-				component={ButtonNavigator}
+				name={props.verified ? "App" : "Verify Email"}
+				component={props.verified ? ButtonNavigator : VerifyNavigator}
 			/>
 			<MainUserNavigatorBottomTabs.Screen
 				name="Account"
@@ -112,15 +126,15 @@ const MainUserNavigator = () => {
 // Main Admin Navigator
 const MainAdminNavigatorBottomTabs = createBottomTabNavigator();
 
-const MainAdminNavigator = () => {
+const MainAdminNavigator = (props) => {
 	return (
 		<MainAdminNavigatorBottomTabs.Navigator
 			tabBarOptions={bottomTabBarOptions}
 			screenOptions={bottomTabBarScreenOptions}
 		>
 			<MainAdminNavigatorBottomTabs.Screen
-				name="App"
-				component={ButtonNavigator}
+				name={props.verified ? "App" : "Verify Email"}
+				component={props.verified ? ButtonNavigator : VerifyNavigator}
 			/>
 			<MainAdminNavigatorBottomTabs.Screen
 				name="Account"
@@ -137,12 +151,15 @@ const MainAdminNavigator = () => {
 // Main function
 export default function Navigator() {
 	const role = useSelector((state) => state.auth.role);
+	const emailVerified = useSelector((state) => state.auth.emailVerified);
 
 	return (
 		<NavigationContainer>
 			{!role && <AuthNavigator />}
-			{role === "user" && <MainUserNavigator />}
-			{role === "admin" && <MainAdminNavigator />}
+			{role === "user" && <MainUserNavigator verified={emailVerified} />}
+			{role === "admin" && (
+				<MainAdminNavigator verified={emailVerified} />
+			)}
 		</NavigationContainer>
 	);
 }

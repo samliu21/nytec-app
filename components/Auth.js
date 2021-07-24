@@ -17,8 +17,7 @@ import CustomButton from "./CustomButton";
 import Background from "./Background";
 import Loading from "./Loading";
 import PasswordChange from "./PasswordChange";
-
-const width = Dimensions.get("screen").width;
+import Logo from "./Logo";
 
 export default function Auth(props) {
 	const [email, setEmail] = useState("");
@@ -61,25 +60,7 @@ export default function Auth(props) {
 					}
 				);
 
-				// console.log(response.data.idToken);
-				// const authResponse = await axios.post(
-				// 	"https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
-				// 	{
-				// 		requestType: "VERIFY_EMAIL",
-				// 		idToken: response.data.idToken,
-				// 	}
-				// );
-				const verifyResponse = await axios.post(
-					"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
-					{
-						idToken: response.data.idToken,
-					}
-				);
-				console.log(verifyResponse.data);
-
-				// console.log(authResponse.data);
-
-				// dispatch(authActions.signIn(response, token));
+				dispatch(authActions.signIn(response, token));
 			} catch (err) {
 				let message = "There was an error handling your credentials.";
 				// console.dir(err.response.data.error.message);
@@ -167,12 +148,7 @@ export default function Auth(props) {
 				keyboardVerticalOffset={headerHeight + 20}
 			>
 				<View style={styles.container}>
-					<View style={styles.imageContainer}>
-						<Image
-							source={require("../constants/images/紐神.png")}
-							style={styles.image}
-						/>
-					</View>
+					<Logo />
 					<Input
 						value={email}
 						onChangeText={emailChangeHandler}
@@ -217,14 +193,6 @@ const styles = StyleSheet.create({
 	container: {
 		padding: 20,
 		flex: 1,
-	},
-	image: {
-		width: width / 2,
-		height: width / 2,
-	},
-	imageContainer: {
-		alignItems: "center",
-		marginBottom: "10%",
 	},
 	input: {
 		borderWidth: 2,
