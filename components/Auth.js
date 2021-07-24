@@ -61,7 +61,25 @@ export default function Auth(props) {
 					}
 				);
 
-				dispatch(authActions.signIn(response, token));
+				// console.log(response.data.idToken);
+				// const authResponse = await axios.post(
+				// 	"https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
+				// 	{
+				// 		requestType: "VERIFY_EMAIL",
+				// 		idToken: response.data.idToken,
+				// 	}
+				// );
+				const verifyResponse = await axios.post(
+					"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
+					{
+						idToken: response.data.idToken,
+					}
+				);
+				console.log(verifyResponse.data);
+
+				// console.log(authResponse.data);
+
+				// dispatch(authActions.signIn(response, token));
 			} catch (err) {
 				let message = "There was an error handling your credentials.";
 				// console.dir(err.response.data.error.message);
