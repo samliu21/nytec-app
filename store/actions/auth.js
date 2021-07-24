@@ -12,6 +12,7 @@ export const SET_EMAIL_VERIFIED = "SET_EMAIL_VERIFIED";
 // Auto logout timer (upon token expiry)
 let timer;
 
+// Set whether the user's state is verified
 export const setEmailVerified = (value) => {
 	return async (dispatch) => {
 		dispatch({
@@ -21,6 +22,8 @@ export const setEmailVerified = (value) => {
 	};
 };
 
+// Check whether the user's account is verified
+// Dispatch state to redux
 const authenticate = (idToken, userId, email, role, expiresIn) => {
 	return async (dispatch) => {
 		try {
@@ -114,6 +117,7 @@ export const signIn = (response, pushToken) => {
 	};
 };
 
+// When the idToken invalidates, automatically logout the user
 const setLogoutTimer = (expirationTime) => {
 	return (dispatch) => {
 		timer = setTimeout(() => {
@@ -122,13 +126,14 @@ const setLogoutTimer = (expirationTime) => {
 	};
 };
 
+// If the user manually logs out, clear the logout timer
 const clearTimer = () => {
 	if (timer) {
 		clearTimeout(timer);
 	}
 };
 
-// Logout (clear redux state)
+// Clear redux state and remove any storage in AsyncStorage
 export const logout = () => {
 	AsyncStorage.removeItem("userData");
 	clearTimer();
@@ -138,7 +143,7 @@ export const logout = () => {
 	};
 };
 
-// Auth login
+// Auto login if data can be found with the userData key
 export const autoLogin = (idToken, userId, email, role) => {
 	return {
 		type: AUTO_LOGIN,
@@ -149,6 +154,8 @@ export const autoLogin = (idToken, userId, email, role) => {
 	};
 };
 
+// Set the user's data in AsyncStorage and their role to be user if they are signing up
+// Attempt to send push token to Firebase backend
 const sendToDatabase = async (
 	isLogin,
 	userId,
