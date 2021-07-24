@@ -6,6 +6,7 @@ import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/auth";
 import Background from "./Background";
 import CustomButton from "./CustomButton";
+import PasswordChange from "./PasswordChange";
 
 export default function Account() {
 	const email = useSelector((state) => state.auth.email);
@@ -24,6 +25,7 @@ export default function Account() {
 					<Text style={styles.email}>{email}</Text>
 				</View>
 				<CustomButton onPress={logoutHandler}>Logout</CustomButton>
+				<PasswordChange>Change your password.</PasswordChange>
 			</View>
 		</Background>
 	);

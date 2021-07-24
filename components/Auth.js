@@ -1,13 +1,22 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Alert, Image, Dimensions } from "react-native";
+import {
+	View,
+	StyleSheet,
+	Alert,
+	Image,
+	Dimensions,
+	KeyboardAvoidingView,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import { useHeaderHeight } from "@react-navigation/stack";
 
 import * as authActions from "../store/actions/auth";
 import Input from "./Input";
 import CustomButton from "./CustomButton";
 import Background from "./Background";
 import Loading from "./Loading";
+import PasswordChange from "./PasswordChange";
 
 const width = Dimensions.get("screen").width;
 
@@ -21,6 +30,7 @@ export default function Auth(props) {
 	const token = useSelector((state) => state.notification.pushToken);
 
 	const dispatch = useDispatch();
+	const headerHeight = useHeaderHeight();
 
 	// Sets title in the navigation bar
 	useEffect(() => {
@@ -133,40 +143,49 @@ export default function Auth(props) {
 
 	return (
 		<Background>
-			<View style={styles.container}>
-				<View style={styles.imageContainer}>
-					<Image
-						source={require("../constants/images/紐神.png")}
-						style={styles.image}
-					/>
-				</View>
-				<Input
-					value={email}
-					onChangeText={emailChangeHandler}
-					placeholder="Email"
-				/>
-				<Input
-					value={password}
-					onChangeText={passwordChangeHandler}
-					placeholder="Password"
-					secureTextEntry
-				/>
-				{!isLogin && (
+			<KeyboardAvoidingView
+				style={{ flex: 1 }}
+				behavior="padding"
+				keyboardVerticalOffset={headerHeight + 20}
+			>
+				<View style={styles.container}>
+					<View style={styles.imageContainer}>
+						<Image
+							source={require("../constants/images/紐神.png")}
+							style={styles.image}
+						/>
+					</View>
 					<Input
-						value={retypedPassword}
-						onChangeText={retypePasswordChangeHandler}
-						placeholder="Retype your password"
+						value={email}
+						onChangeText={emailChangeHandler}
+						placeholder="Email"
+					/>
+					<Input
+						value={password}
+						onChangeText={passwordChangeHandler}
+						placeholder="Password"
 						secureTextEntry
 					/>
-				)}
-				<View style={styles.buttonContainer}>
-					<CustomButton onPress={submitHandler}>Submit</CustomButton>
-					<CustomButton onPress={switchModeHandler}>
-						{isLogin ? "Signup" : "Login"}
-					</CustomButton>
+					{!isLogin && (
+						<Input
+							value={retypedPassword}
+							onChangeText={retypePasswordChangeHandler}
+							placeholder="Retype your password"
+							secureTextEntry
+						/>
+					)}
+					<View style={styles.buttonContainer}>
+						<CustomButton onPress={submitHandler}>
+							Submit
+						</CustomButton>
+						<CustomButton onPress={switchModeHandler}>
+							{isLogin ? "Signup" : "Login"}
+						</CustomButton>
+					</View>
+					<PasswordChange>Forgot your password?</PasswordChange>
+					{isLoading && <Loading />}
 				</View>
-				{isLoading && <Loading />}
-			</View>
+			</KeyboardAvoidingView>
 		</Background>
 	);
 }
@@ -179,6 +198,7 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		padding: 20,
+		flex: 1,
 	},
 	image: {
 		width: width / 2,
