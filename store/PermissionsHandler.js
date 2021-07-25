@@ -73,12 +73,14 @@ export default function PermissionsHandler(props) {
 					setIsLoading(false);
 					return;
 				}
+				
 				dispatch(
 					authActions.autoLogin(
 						data.idToken,
 						data.userId,
 						data.email,
-						data.role
+						data.role,
+						data.emailVerified
 					)
 				);
 			} else {

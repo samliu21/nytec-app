@@ -37,6 +37,7 @@ export default reducer = (state = initialState, action) => {
 				userId: action.userId,
 				email: action.email,
 				role: action.role,
+				emailVerified: action.emailVerified,
 			};
 		case SET_EMAIL_VERIFIED:
 			return {

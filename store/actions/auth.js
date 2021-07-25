@@ -26,21 +26,6 @@ export const setEmailVerified = (value) => {
 // Dispatch state to redux
 const authenticate = (idToken, userId, email, role, expiresIn) => {
 	return async (dispatch) => {
-		try {
-			const verify = await axios.post(
-				"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
-				{
-					idToken: idToken,
-				}
-			);
-
-			const emailVerified = verify.data.users[0].emailVerified;
-
-			dispatch(setEmailVerified(emailVerified));
-		} catch (err) {
-			console.log(err.message);
-		}
-
 		dispatch({
 			type: AUTHENTICATE,
 			idToken: idToken,
@@ -71,7 +56,7 @@ export const signUp = (response, pushToken) => {
 				new Date().getTime() + expiresIn
 			).toISOString();
 
-			const role = await sendToDatabase(
+			const [role, emailVerified] = await sendToDatabase(
 				false,
 				userId,
 				idToken,
@@ -79,6 +64,8 @@ export const signUp = (response, pushToken) => {
 				email,
 				expirationDate
 			);
+
+			dispatch(setEmailVerified(emailVerified));
 
 			dispatch(authenticate(idToken, userId, email, role, expiresIn));
 		} catch (err) {
@@ -101,7 +88,7 @@ export const signIn = (response, pushToken) => {
 				new Date().getTime() + expiresIn
 			).toISOString();
 
-			const role = await sendToDatabase(
+			const [role, emailVerified] = await sendToDatabase(
 				true,
 				userId,
 				idToken,
@@ -109,6 +96,8 @@ export const signIn = (response, pushToken) => {
 				email,
 				expirationDate
 			);
+
+			dispatch(setEmailVerified(emailVerified));
 
 			dispatch(authenticate(idToken, userId, email, role, expiresIn));
 		} catch (err) {
@@ -144,13 +133,14 @@ export const logout = () => {
 };
 
 // Auto login if data can be found with the userData key
-export const autoLogin = (idToken, userId, email, role) => {
+export const autoLogin = (idToken, userId, email, role, emailVerified) => {
 	return {
 		type: AUTO_LOGIN,
 		idToken: idToken,
 		userId: userId,
 		email: email,
 		role: role,
+		emailVerified: emailVerified,
 	};
 };
 
@@ -166,6 +156,7 @@ const sendToDatabase = async (
 ) => {
 	// User's role status (e.g. user, admin)
 	let role;
+	let emailVerified;
 
 	try {
 		if (userId && idToken) {
@@ -175,6 +166,15 @@ const sendToDatabase = async (
 
 			role = loginResponse.data ? loginResponse.data.role : "user";
 
+			const verify = await axios.post(
+				"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
+				{
+					idToken: idToken,
+				}
+			);
+
+			emailVerified = verify.data.users[0].emailVerified;
+
 			// Save data to local storage
 			AsyncStorage.setItem(
 				"userData",
@@ -183,6 +183,7 @@ const sendToDatabase = async (
 					userId: userId,
 					email: email,
 					role: role,
+					emailVerified: emailVerified,
 					expirationDate: expirationDate,
 				})
 			);
@@ -237,5 +238,5 @@ const sendToDatabase = async (
 		Alert.alert("Error handling your credentials");
 	}
 
-	return role;
+	return [role, emailVerified];
 };
