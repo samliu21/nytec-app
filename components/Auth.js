@@ -136,13 +136,12 @@ export default function Auth(props) {
 
 	return (
 		<Background>
-			<KeyboardAvoidingView
-				style={{ flex: 1 }}
-				behavior="padding"
-				keyboardVerticalOffset={headerHeight + 20}
-			>
-				<View style={styles.container}>
-					<Logo />
+			<View style={styles.container}>
+				<Logo />
+				<KeyboardAvoidingView
+					behavior="position"
+					keyboardVerticalOffset={headerHeight + 10}
+				>
 					<Input
 						value={email}
 						onChangeText={emailChangeHandler}
@@ -162,18 +161,16 @@ export default function Auth(props) {
 							secureTextEntry
 						/>
 					)}
-					<View style={styles.buttonContainer}>
-						<CustomButton onPress={submitHandler}>
-							Submit
-						</CustomButton>
-						<CustomButton onPress={switchModeHandler}>
-							{isLogin ? "Signup" : "Login"}
-						</CustomButton>
-					</View>
-					<PasswordChange>Forgot your password?</PasswordChange>
-					{isLoading && <Loading />}
+				</KeyboardAvoidingView>
+				<View style={styles.buttonContainer}>
+					<CustomButton onPress={submitHandler}>Submit</CustomButton>
+					<CustomButton onPress={switchModeHandler}>
+						{isLogin ? "Signup" : "Login"}
+					</CustomButton>
 				</View>
-			</KeyboardAvoidingView>
+				<PasswordChange>Forgot your password?</PasswordChange>
+				{isLoading && <Loading />}
+			</View>
 		</Background>
 	);
 }
