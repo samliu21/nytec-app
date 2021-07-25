@@ -72,7 +72,7 @@ const VerifyNavigator = () => {
 	return (
 		<VerifyNavigatorStack.Navigator screenOptions={defaultStyle}>
 			<VerifyNavigatorStack.Screen
-				name="Verify Email"
+				name="验证邮件"
 				component={VerifyEmail}
 			/>
 		</VerifyNavigatorStack.Navigator>
@@ -112,7 +112,7 @@ const MainUserNavigator = (props) => {
 			screenOptions={bottomTabBarScreenOptions}
 		>
 			<MainUserNavigatorBottomTabs.Screen
-				name={props.verified ? "App" : "Verify Email"}
+				name="Main"
 				component={props.verified ? ButtonNavigator : VerifyNavigator}
 			/>
 			<MainUserNavigatorBottomTabs.Screen
@@ -133,7 +133,7 @@ const MainAdminNavigator = (props) => {
 			screenOptions={bottomTabBarScreenOptions}
 		>
 			<MainAdminNavigatorBottomTabs.Screen
-				name={props.verified ? "App" : "Verify Email"}
+				name="Main"
 				component={props.verified ? ButtonNavigator : VerifyNavigator}
 			/>
 			<MainAdminNavigatorBottomTabs.Screen

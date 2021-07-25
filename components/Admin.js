@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Text, View, Button, Alert, StyleSheet } from "react-native";
+import { Text, View, Alert, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 
 import Colors from "../constants/Colors";
@@ -123,24 +123,24 @@ export default function Admin() {
 	return (
 		<Background>
 			<View style={styles.container}>
-				<Text style={styles.label}>Title</Text>
+				<Text style={styles.label}>标题</Text>
 				<Input
 					value={title}
 					onChangeText={titleChangeHandler}
-					placeholder="Title"
+					placeholder="标题"
 				/>
-				<Text style={styles.label}>Message</Text>
+				<Text style={styles.label}>信息</Text>
 				<Input
 					value={message}
 					onChangeText={messageChangeHandler}
-					placeholder="Message"
+					placeholder="信息"
 					style={styles.messageInput}
 				/>
 				<CustomButton
 					color={Colors.primary}
 					onPress={notificationClickHandler}
 				>
-					Send notification
+					发送通知
 				</CustomButton>
 			</View>
 		</Background>

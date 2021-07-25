@@ -145,12 +145,12 @@ export default function Auth(props) {
 					<Input
 						value={email}
 						onChangeText={emailChangeHandler}
-						placeholder="Email"
+						placeholder="电邮"
 					/>
 					<Input
 						value={password}
 						onChangeText={passwordChangeHandler}
-						placeholder="Password"
+						placeholder="密码"
 						secureTextEntry
 					/>
 					{!isLogin && (
@@ -163,12 +163,12 @@ export default function Auth(props) {
 					)}
 				</KeyboardAvoidingView>
 				<View style={styles.buttonContainer}>
-					<CustomButton onPress={submitHandler}>Submit</CustomButton>
+					<CustomButton onPress={submitHandler}>提交</CustomButton>
 					<CustomButton onPress={switchModeHandler}>
-						{isLogin ? "Signup" : "Login"}
+						{isLogin ? "报名" : "登录"}
 					</CustomButton>
 				</View>
-				<PasswordChange>Forgot your password?</PasswordChange>
+				<PasswordChange>忘记密码了吗？</PasswordChange>
 				{isLoading && <Loading />}
 			</View>
 		</Background>
