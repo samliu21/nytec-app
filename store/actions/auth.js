@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import Constants from "expo-constants";
 
 export const AUTHENTICATE = "AUTHENTICATE";
 export const SIGNIN = "SIGNIN";
@@ -166,8 +167,10 @@ const sendToDatabase = async (
 
 			role = loginResponse.data ? loginResponse.data.role : "user";
 
+			const apiKey = Constants.manifest.extra.apiKey;
+
 			const verify = await axios.post(
-				"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
+				`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${apiKey}`,
 				{
 					idToken: idToken,
 				}

@@ -1,15 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import {
-	View,
-	StyleSheet,
-	Alert,
-	Image,
-	Dimensions,
-	KeyboardAvoidingView,
-} from "react-native";
+import { View, StyleSheet, Alert, KeyboardAvoidingView } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { useHeaderHeight } from "@react-navigation/stack";
+import Constants from "expo-constants";
 
 import * as authActions from "../store/actions/auth";
 import Input from "./Input";
@@ -49,7 +43,7 @@ export default function Auth(props) {
 		if (isLogin) {
 			try {
 				const response = await axios.post(
-					"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
+					`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${props.apiKey}`,
 					{
 						email: email,
 						password: password,
@@ -83,7 +77,7 @@ export default function Auth(props) {
 		} else {
 			try {
 				const response = await axios.post(
-					"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
+					`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${props.apiKey}`,
 					{
 						email: email,
 						password: password,
@@ -183,6 +177,10 @@ export default function Auth(props) {
 		</Background>
 	);
 }
+
+Auth.defaultProps = {
+	apiKey: Constants.manifest.extra.apiKey || null,
+};
 
 const styles = StyleSheet.create({
 	buttonContainer: {

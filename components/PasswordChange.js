@@ -1,13 +1,14 @@
 import axios from "axios";
 import React from "react";
 import { StyleSheet, Text, Alert } from "react-native";
+import Constants from "expo-constants";
 
 export default function PasswordChange(props) {
 	const passwordChangeHandler = () => {
 		Alert.prompt("Enter your email:", null, async (email) => {
 			try {
 				await axios.post(
-					"https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
+					`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${props.apiKey}`,
 					{
 						requestType: "PASSWORD_RESET",
 						email: email,
@@ -35,6 +36,10 @@ export default function PasswordChange(props) {
 		</Text>
 	);
 }
+
+PasswordChange.defaultProps = {
+	apiKey: Constants.manifest.extra.apiKey || null,
+};
 
 const styles = StyleSheet.create({
 	text: {

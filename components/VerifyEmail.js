@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { StyleSheet, View, Text, Alert } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import Colors from "../constants/Colors";
+import Constants from "expo-constants";
 
 import * as authActions from "../store/actions/auth";
 import Background from "./Background";
@@ -18,7 +19,7 @@ export default function VerifyEmail() {
 	const sendEmailHandler = async () => {
 		try {
 			const response = await axios.post(
-				"https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
+				`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${props.apiKey}`,
 				{
 					requestType: "VERIFY_EMAIL",
 					idToken: idToken,
@@ -55,7 +56,7 @@ export default function VerifyEmail() {
 	const verifyHandler = async () => {
 		try {
 			const verify = await axios.post(
-				"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo",
+				`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${props.apiKey}`,
 				{
 					idToken: idToken,
 				}
@@ -105,6 +106,10 @@ export default function VerifyEmail() {
 		</Background>
 	);
 }
+
+VerifyEmail.defaultProps = {
+	apiKey: Constants.manifest.extra.apiKey || null,
+};
 
 const styles = StyleSheet.create({
 	buttonContainer: {
