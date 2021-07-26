@@ -54,6 +54,32 @@ A POST API call is then made to Expo's push notification service at `https://exp
 ## Firebase
 The database consists of two tables: `tokens` and `users`.
 
+### Tokens
+Sample structure:
+```
+tokens
+    [Userid1]
+        tokens
+            [token1]
+            [token2]
+            ...
+    Userid2
+    ...
+      
+```
+The `tokens` table stores a user's push notification tokens, which are sent to Expo's push notification API service when an admin creates a notification. 
+The nested `tokens` variable is an array. There may be multiple tokens if a user has multiple devices.
 
+### Users
+Sample structure:
+```
+users
+    [Userid1]
+        role: "user"
+    [Userid2]
+        role: "admin"
+    ...
+```
+The `users` table stores the role of each user. It is worth mentioning that the API was designed so that a user cannot set their `role` to anything but `user`. `admin` must be set from the Firebase console.
 
 
