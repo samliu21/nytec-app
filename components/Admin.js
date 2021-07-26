@@ -42,7 +42,7 @@ export default function Admin() {
 			console.log(err.message);
 		}
 
-		Alert.alert("Starting!");
+		Alert.alert("開始!");
 		const failedTokens = [];
 		let errorCount = 0;
 
@@ -85,12 +85,7 @@ export default function Admin() {
 		}
 
 		// Indicate how many failed notifications
-		Alert.alert(
-			"Success!",
-			errorCount === 1
-				? `There was ${errorCount} failed notification.`
-				: `There were ${errorCount} failed notifications.`
-		);
+		Alert.alert("成功!", `有 ${errorCount} 個失敗的通知`);
 
 		// Attempt to resend failed tokens
 		for (const token of failedTokens) {
@@ -101,18 +96,18 @@ export default function Admin() {
 	const notificationClickHandler = () => {
 		const confirmContent = () => {
 			Alert.alert(
-				"Your Message",
+				"您的留言",
 				`Title: ${title}\nMessage: ${message}`,
 				[
-					{ text: "Cancel", style: "destructive" },
-					{ text: "Send", onPress: sendNotification },
+					{ text: "取消", style: "destructive" },
+					{ text: "發送", onPress: sendNotification },
 				]
 			);
 		};
 
 		Alert.alert(
-			"Are you sure?",
-			"A notification will be sent to all users.",
+			"你確定嗎?",
+			"將向所有用戶發送通知.",
 			[
 				{ text: "Cancel", style: "destructive" },
 				{ text: "Yes", onPress: confirmContent },
@@ -127,7 +122,7 @@ export default function Admin() {
 				<Input
 					value={title}
 					onChangeText={titleChangeHandler}
-					placeholder="标题"
+					placeholder="標題"
 				/>
 				<Text style={styles.label}>信息</Text>
 				<Input
@@ -140,7 +135,7 @@ export default function Admin() {
 					color={Colors.primary}
 					onPress={notificationClickHandler}
 				>
-					发送通知
+					發送通知
 				</CustomButton>
 			</View>
 		</Background>

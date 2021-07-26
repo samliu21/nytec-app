@@ -6,7 +6,7 @@ import Colors from "../constants/Colors";
 export default function CustomButton(props) {
 	return (
 		<TouchableOpacity {...props} style={styles.container}>
-			<Text style={styles.text}>{props.children.toUpperCase()}</Text>
+			<Text style={styles.text}>{props.children}</Text>
 		</TouchableOpacity>
 	);
 }

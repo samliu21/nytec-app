@@ -10,7 +10,7 @@ import Background from "./Background";
 import CustomButton from "./CustomButton";
 import Logo from "./Logo";
 
-export default function VerifyEmail() {
+export default function VerifyEmail(props) {
 	const idToken = useSelector((state) => state.auth.idToken);
 	const [attempts, setAttempts] = useState(0);
 
@@ -18,7 +18,7 @@ export default function VerifyEmail() {
 
 	const sendEmailHandler = async () => {
 		try {
-			const response = await axios.post(
+			await axios.post(
 				`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${props.apiKey}`,
 				{
 					requestType: "VERIFY_EMAIL",
@@ -26,29 +26,26 @@ export default function VerifyEmail() {
 				}
 			);
 
-			Alert.alert("An email verification link has been sent!");
+			Alert.alert("驗證鏈接已發送至您的郵箱!");
 		} catch (err) {
-			let message = "Could not send your verification email.";
+			let message = "無法發送您的驗證電子郵件。";
 			if (err.response) {
+				console.log(err.response.data.error.message);
 				switch (err.response.data.error.message) {
 					case "INVALID_ID_TOKEN":
-						message =
-							"Your ID token is invalid. Please sign in again to revalidate it.";
+						message = "您的 ID 無效。請重新登錄以獲取新的。";
 					case "USER_NOT_FOUND":
-						message = "User not found.";
+						message = "找不到用戶。";
 					case "TOO_MANY_ATTEMPTS_TRY_LATER":
-						message = "Too many attempts. Please try again later.";
+						message = "太多的嘗試。 請稍後再試。";
 				}
 			}
-			Alert.alert("Error sending your email", message);
+			Alert.alert("發送電子郵件時出錯", message);
 		}
 
 		if (attempts === 3) {
 			// Second time failing
-			Alert.alert(
-				"Still not working?",
-				"Check that your email is correct on the next page."
-			);
+			Alert.alert("還是不工作嗎?", "請在下一頁檢查您的電子郵件是否正確。");
 		}
 		setAttempts((state) => state + 1);
 	};
@@ -64,23 +61,23 @@ export default function VerifyEmail() {
 
 			const emailVerified = verify.data.users[0].emailVerified;
 			if (emailVerified === false) {
-				Alert.alert("Oops. You haven't verified yet!");
+				Alert.alert("你還沒有驗證!");
 				return;
 			}
 
 			dispatch(authActions.setEmailVerified(emailVerified));
 		} catch (err) {
-			let message = "Unable to verify you.";
+			let message = "無法驗證您。";
 			if (err.response) {
 				switch (err.response.data.error.message) {
 					case "INVALID_ID_TOKEN":
 						message =
-							"Your ID token is invalid. Please sign in again to revalidate it.";
+							"您的 ID 無效。請重新登錄以獲取新的。";
 					case "USER_NOT_FOUND":
-						message = "User not found.";
+						message = "找不到用戶。";
 				}
 			}
-			Alert.alert("Error verifying your email", message);
+			Alert.alert("驗證您的電子郵件時出錯。", message);
 		}
 		setAttempts(0);
 	};
@@ -89,17 +86,16 @@ export default function VerifyEmail() {
 		<Background>
 			<View style={styles.container}>
 				<Logo />
-				<Text style={styles.heading}>Your email is unverified!</Text>
+				<Text style={styles.heading}>您的電子郵件未經驗證!</Text>
 				<Text style={styles.body}>
-					Click SEND EMAIL to receive your verification link and I'VE
-					VERIFIED once finished.
+					單擊發送電子郵件以接收您的驗證鏈接，我有完成後驗證.
 				</Text>
 				<View style={styles.buttonContainer}>
 					<CustomButton onPress={sendEmailHandler}>
-						Send Email!
+						發送電子郵!
 					</CustomButton>
 					<CustomButton onPress={verifyHandler}>
-						I've Verified!
+						我已經驗證!
 					</CustomButton>
 				</View>
 			</View>

@@ -20,12 +20,12 @@ export default function Account() {
 	return (
 		<Background>
 			<View style={styles.container}>
-				<Text style={styles.loginText}>电邮:</Text>
+				<Text style={styles.loginText}>電郵:</Text>
 				<View style={styles.emailContainer}>
 					<Text style={styles.email}>{email}</Text>
 				</View>
-				<CustomButton onPress={logoutHandler}>登出</CustomButton>
-				<PasswordChange>更改您的密码</PasswordChange>
+				<CustomButton onPress={logoutHandler}>注销</CustomButton>
+				<PasswordChange>更改您的密碼。</PasswordChange>
 			</View>
 		</Background>
 	);

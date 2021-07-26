@@ -3,7 +3,6 @@ import {
 	StyleSheet,
 	SafeAreaView,
 	FlatList,
-	ImageBackground,
 } from "react-native";
 
 import Button from "./Button";

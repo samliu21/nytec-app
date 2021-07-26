@@ -191,7 +191,7 @@ const sendToDatabase = async (
 				})
 			);
 
-			if (!loginResponse.data && !isLogin) {
+			if (!loginResponse.data) {
 				await axios.put(
 					`https://nytec-practice-default-rtdb.firebaseio.com/users/${userId}.json?auth=${idToken}`,
 					{

@@ -5,7 +5,7 @@ import Constants from "expo-constants";
 
 export default function PasswordChange(props) {
 	const passwordChangeHandler = () => {
-		Alert.prompt("Enter your email:", null, async (email) => {
+		Alert.prompt("輸入你的電子郵箱:", null, async (email) => {
 			try {
 				await axios.post(
 					`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${props.apiKey}`,
@@ -15,17 +15,17 @@ export default function PasswordChange(props) {
 					}
 				);
 
-				Alert.alert("Success", "Email has been sent successfully.");
+				Alert.alert("成功", "電子郵件已經發送成功.");
 			} catch (err) {
-				let message = "There was an error sending the email.";
+				let message = "發送電子郵件時出錯.";
 				if (
 					err.response &&
 					err.response.data.error.message === "INVALID_EMAIL"
 				) {
 					message =
-						"The entered email is not attached to an account.";
+						"電子郵件無效.";
 				}
-				Alert.alert("Failure", message);
+				Alert.alert("失敗", message);
 			}
 		});
 	};

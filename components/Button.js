@@ -33,7 +33,7 @@ export default function Button(props) {
 		if (supported) {
 			Linking.openURL(item.url);
 		} else {
-			Alert.alert("Error", "Can't open URL", [{ text: "Ok" }]);
+			Alert.alert("錯誤", "無法打開網址", [{ text: "Ok" }]);
 		}
 	};
 

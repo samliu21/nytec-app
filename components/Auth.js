@@ -28,14 +28,14 @@ export default function Auth(props) {
 	// Sets title in the navigation bar
 	useEffect(() => {
 		props.navigation.setOptions({
-			headerTitle: isLogin ? "登录" : "报名",
+			headerTitle: isLogin ? "登錄" : "報名",
 		});
 	}, [props.navigation.setOptions, isLogin]);
 
 	const submitHandler = async () => {
 		// Check that passwords match
 		if (!isLogin && password !== retypedPassword) {
-			Alert.alert("Passwords don't match!", "Please try again!");
+			Alert.alert("密碼不匹配!", "請再試一次!");
 			return;
 		}
 
@@ -56,23 +56,23 @@ export default function Auth(props) {
 
 				dispatch(authActions.signIn(response, token));
 			} catch (err) {
-				let message = "There was an error handling your credentials.";
+				let message = "處理您的信息時出錯。";
 				// console.dir(err.response.data.error.message);
 				if (err.response) {
 					switch (err.response.data.error.message) {
 						// Login errors
 						case "EMAIL_NOT_FOUND":
-							message = "Email does not exist.";
+							message = "電子郵件不存在。";
 							break;
 						case "INVALID_PASSWORD":
-							message = "Invalid password.";
+							message = "無效的密碼。";
 							break;
 						case "USER_DISABLED":
-							message = "User has been disabled.";
+							message = "用戶已被禁用。";
 							break;
 					}
 				}
-				Alert.alert("Error", message);
+				Alert.alert("錯誤", message);
 			}
 		} else {
 			try {
@@ -90,29 +90,29 @@ export default function Auth(props) {
 				dispatch(authActions.signUp(response, token));
 			} catch (err) {
 				// Error handling
-				let message = "There was an error handling your credentials.";
+				let message = "處理您的信息時出錯。";
 				if (err.response) {
 					switch (err.response.data.error.message) {
 						case "EMAIL_EXISTS":
-							message = "Email already exists.";
+							message = "電子郵件已經存在。";
 							break;
 						case "INVALID_PASSWORD":
-							message = "Invalid password.";
+							message = "無效的密碼。";
 							break;
 						case "USER_DISABLED":
-							message = "User has been disabled.";
+							message = "用戶已被禁用。";
 							break;
 						case "TOO_MANY_ATTEMPTS_TRY_LATER":
-							message = "Too many attempts.";
+							message = "太多的嘗試。";
 							break;
 						case "WEAK_PASSWORD : Password should be at least 6 characters":
 							message =
-								"Password should be at least 6 characters.";
+								"密碼應至少為 6 個字。";
 							break;
 					}
 				}
 
-				Alert.alert("Error", message);
+				Alert.alert("錯誤", message);
 			}
 		}
 		setIsLoading(false);
@@ -145,19 +145,19 @@ export default function Auth(props) {
 					<Input
 						value={email}
 						onChangeText={emailChangeHandler}
-						placeholder="电邮"
+						placeholder="電郵 (Email)"
 					/>
 					<Input
 						value={password}
 						onChangeText={passwordChangeHandler}
-						placeholder="密码"
+						placeholder="密碼 (Password)"
 						secureTextEntry
 					/>
 					{!isLogin && (
 						<Input
 							value={retypedPassword}
 							onChangeText={retypePasswordChangeHandler}
-							placeholder="Retype your password"
+							placeholder="重新輸入您的密碼 (Retype password)"
 							secureTextEntry
 						/>
 					)}
@@ -165,10 +165,10 @@ export default function Auth(props) {
 				<View style={styles.buttonContainer}>
 					<CustomButton onPress={submitHandler}>提交</CustomButton>
 					<CustomButton onPress={switchModeHandler}>
-						{isLogin ? "报名" : "登录"}
+						{isLogin ? "報名" : "登錄"}
 					</CustomButton>
 				</View>
-				<PasswordChange>忘记密码了吗？</PasswordChange>
+				<PasswordChange>忘記密碼了嗎？</PasswordChange>
 				{isLoading && <Loading />}
 			</View>
 		</Background>
