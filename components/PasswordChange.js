@@ -16,6 +16,7 @@ export default function PasswordChange(props) {
 				);
 
 				Alert.alert("成功", "電子郵件已經發送成功.");
+				
 			} catch (err) {
 				let message = "發送電子郵件時出錯.";
 				if (

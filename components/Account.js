@@ -25,7 +25,7 @@ export default function Account() {
 					<Text style={styles.email}>{email}</Text>
 				</View>
 				<CustomButton onPress={logoutHandler}>注销</CustomButton>
-				<PasswordChange>更改您的密碼。</PasswordChange>
+				<PasswordChange>更改您的密碼</PasswordChange>
 			</View>
 		</Background>
 	);

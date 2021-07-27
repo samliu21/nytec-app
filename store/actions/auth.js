@@ -57,6 +57,8 @@ export const signUp = (response, pushToken) => {
 				new Date().getTime() + expiresIn
 			).toISOString();
 
+			console.log(expirationDate);
+
 			const [role, emailVerified] = await sendToDatabase(
 				false,
 				userId,
@@ -238,7 +240,6 @@ const sendToDatabase = async (
 		}
 	} catch (err) {
 		console.log(err.message);
-		Alert.alert("Error handling your credentials");
 	}
 
 	return [role, emailVerified];

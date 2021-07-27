@@ -52,7 +52,7 @@ export default new Category(0, "主页", null, [
 	new Url(4, "神學百科", 神學百科, "https://ebook.nytec.net"),
 
 	new Category(5, "神學院級主日學課程", 神學院級主日學課程, [
-		new Url(51, "課程網站", 課程網站, "nytec.us"),
+		new Url(51, "課程網站", 課程網站, "https://ss.nytec.net"),
 		new Url(52, "課程系統", 課程系統, "https://ssonline.nytec.net"),
 	]),
 
