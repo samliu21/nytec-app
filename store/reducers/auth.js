@@ -1,9 +1,6 @@
 import {
-	SET_ROLE,
 	LOGOUT,
-	AUTO_LOGIN,
 	AUTHENTICATE,
-	SET_EMAIL_VERIFIED,
 } from "../actions/auth";
 
 const initialState = {
@@ -22,28 +19,11 @@ export default reducer = (state = initialState, action) => {
 				idToken: action.idToken,
 				userId: action.userId,
 				email: action.email,
-			};
-		case SET_ROLE:
-			return {
-				...state,
 				role: action.role,
+				emailVerified: action.emailVerified,
 			};
 		case LOGOUT:
 			return initialState;
-		case AUTO_LOGIN:
-			return {
-				...state,
-				idToken: action.idToken,
-				userId: action.userId,
-				email: action.email,
-				role: action.role,
-				emailVerified: action.emailVerified,
-			};
-		case SET_EMAIL_VERIFIED:
-			return {
-				...state,
-				emailVerified: action.emailVerified,
-			};
 		default:
 			return state;
 	}

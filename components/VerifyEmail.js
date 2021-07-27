@@ -17,6 +17,7 @@ export default function VerifyEmail(props) {
 	const dispatch = useDispatch();
 
 	const sendEmailHandler = async () => {
+		// Send verfication email
 		try {
 			await axios.post(
 				`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${props.apiKey}`,
@@ -43,7 +44,7 @@ export default function VerifyEmail(props) {
 		}
 
 		if (attempts === 3) {
-			// Second time failing
+			// Third time failing
 			Alert.alert(
 				"還是不工作嗎?",
 				"請在下一頁檢查您的電子郵件是否正確。"
@@ -54,6 +55,7 @@ export default function VerifyEmail(props) {
 
 	const verifyHandler = async () => {
 		try {
+			// Verify that the user has clicked the verification link
 			const verify = await axios.post(
 				`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${props.apiKey}`,
 				{
@@ -62,11 +64,14 @@ export default function VerifyEmail(props) {
 			);
 
 			const emailVerified = verify.data.users[0].emailVerified;
+
+			// If the user has not verified their email
 			if (emailVerified === false) {
 				Alert.alert("你還沒有驗證!");
 				return;
 			}
 
+			// Set redux state
 			dispatch(authActions.setEmailVerified(emailVerified));
 		} catch (err) {
 			let message = "無法驗證您。";

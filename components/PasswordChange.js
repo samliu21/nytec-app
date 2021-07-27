@@ -5,6 +5,7 @@ import Constants from "expo-constants";
 
 export default function PasswordChange(props) {
 	const passwordChangeHandler = () => {
+		// Prompt user for email, make API call to send email
 		Alert.prompt("輸入你的電子郵箱:", null, async (email) => {
 			try {
 				await axios.post(

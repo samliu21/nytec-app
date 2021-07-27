@@ -3,8 +3,6 @@ import axios from "axios";
 import Constants from "expo-constants";
 
 export const AUTHENTICATE = "AUTHENTICATE";
-export const SIGNIN = "SIGNIN";
-export const SIGNUP = "SIGNUP";
 export const SET_ROLE = "SET_ROLE";
 export const LOGOUT = "LOGOUT";
 export const AUTO_LOGIN = "AUTO_LOGIN";
@@ -13,72 +11,24 @@ export const SET_EMAIL_VERIFIED = "SET_EMAIL_VERIFIED";
 // Auto logout timer (upon token expiry)
 let timer;
 
-// Set whether the user's state is verified
-export const setEmailVerified = (value) => {
-	return async (dispatch) => {
-		dispatch({
-			type: SET_EMAIL_VERIFIED,
-			emailVerified: value,
-		});
-	};
-};
-
-// Check whether the user's account is verified
-// Dispatch state to redux
-const authenticate = (idToken, userId, email, role, expiresIn) => {
+// Set idToken, userId, email, user role, and email verification status to redux
+// Start the logout timer, which triggers a logout after an hour—when the idToken expires
+export const sendToRedux = (idToken, userId, email, role, emailVerified) => {
 	return async (dispatch) => {
 		dispatch({
 			type: AUTHENTICATE,
 			idToken: idToken,
 			userId: userId,
 			email: email,
-		});
-
-		dispatch({
-			type: SET_ROLE,
 			role: role,
+			emailVerified: emailVerified,
 		});
-
-		dispatch(setLogoutTimer(expiresIn));
 	};
 };
 
-// Signup using Firebase's REST authentication API
-export const signUp = (response, pushToken) => {
-	return async (dispatch) => {
-		try {
-			const idToken = response.data.idToken;
-			const userId = response.data.localId;
-			const email = response.data.email;
-			const expirationTime = response.data.expiresIn;
-			const expiresIn = +expirationTime * 1000;
-
-			const expirationDate = new Date(
-				new Date().getTime() + expiresIn
-			).toISOString();
-
-			console.log(expirationDate);
-
-			const [role, emailVerified] = await sendToDatabase(
-				false,
-				userId,
-				idToken,
-				pushToken,
-				email,
-				expirationDate
-			);
-
-			dispatch(setEmailVerified(emailVerified));
-
-			dispatch(authenticate(idToken, userId, email, role, expiresIn));
-		} catch (err) {
-			console.log(err.message);
-		}
-	};
-};
-
-// Sign in using Firebase's REST authentication API
-export const signIn = (response, pushToken) => {
+// Gets the role and email verification status from sendToDatabase()
+// Sends data to Redux
+export const authenticate = (response, pushToken) => {
 	return async (dispatch) => {
 		try {
 			const idToken = response.data.idToken;
@@ -92,7 +42,6 @@ export const signIn = (response, pushToken) => {
 			).toISOString();
 
 			const [role, emailVerified] = await sendToDatabase(
-				true,
 				userId,
 				idToken,
 				pushToken,
@@ -100,9 +49,9 @@ export const signIn = (response, pushToken) => {
 				expirationDate
 			);
 
-			dispatch(setEmailVerified(emailVerified));
+			dispatch(sendToRedux(idToken, userId, email, role, emailVerified));
 
-			dispatch(authenticate(idToken, userId, email, role, expiresIn));
+			dispatch(setLogoutTimer(expiresIn));
 		} catch (err) {
 			console.log(err.message);
 		}
@@ -135,34 +84,22 @@ export const logout = () => {
 	};
 };
 
-// Auto login if data can be found with the userData key
-export const autoLogin = (idToken, userId, email, role, emailVerified) => {
-	return {
-		type: AUTO_LOGIN,
-		idToken: idToken,
-		userId: userId,
-		email: email,
-		role: role,
-		emailVerified: emailVerified,
-	};
-};
-
 // Set the user's data in AsyncStorage and their role to be user if they are signing up
 // Attempt to send push token to Firebase backend
 const sendToDatabase = async (
-	isLogin,
 	userId,
 	idToken,
 	pushToken,
 	email,
 	expirationDate
 ) => {
-	// User's role status (e.g. user, admin)
+	// Return values
 	let role;
 	let emailVerified;
 
 	try {
 		if (userId && idToken) {
+			// Attempt to get user role
 			const loginResponse = await axios.get(
 				`https://nytec-practice-default-rtdb.firebaseio.com/users/${userId}.json?auth=${idToken}`
 			);
@@ -171,6 +108,7 @@ const sendToDatabase = async (
 
 			const apiKey = Constants.manifest.extra.apiKey;
 
+			// Attempt to get user email verification status
 			const verify = await axios.post(
 				`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${apiKey}`,
 				{
@@ -192,7 +130,8 @@ const sendToDatabase = async (
 					expirationDate: expirationDate,
 				})
 			);
-
+			
+			// If user doesn't have a role yet, set it
 			if (!loginResponse.data) {
 				await axios.put(
 					`https://nytec-practice-default-rtdb.firebaseio.com/users/${userId}.json?auth=${idToken}`,
@@ -208,7 +147,6 @@ const sendToDatabase = async (
 			}
 		}
 	} catch (err) {
-		// Error will be thrown if role already exists
 		console.log(err.message);
 	}
 

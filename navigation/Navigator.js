@@ -153,6 +153,8 @@ export default function Navigator() {
 	const role = useSelector((state) => state.auth.role);
 	const emailVerified = useSelector((state) => state.auth.emailVerified);
 
+	// If the user does not have a role (e.g. not authenticated), show auth screen
+	// Show either User navigator or Admin navigator based on role if it exists
 	return (
 		<NavigationContainer>
 			{!role && <AuthNavigator />}

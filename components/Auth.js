@@ -40,6 +40,7 @@ export default function Auth(props) {
 		}
 
 		setIsLoading(true);
+		// --- LOGIN ---
 		if (isLogin) {
 			try {
 				const response = await axios.post(
@@ -54,10 +55,9 @@ export default function Auth(props) {
 					}
 				);
 
-				dispatch(authActions.signIn(response, token));
+				dispatch(authActions.authenticate(response, token));
 			} catch (err) {
 				let message = "處理您的信息時出錯。";
-				// console.dir(err.response.data.error.message);
 				if (err.response) {
 					switch (err.response.data.error.message) {
 						// Login errors
@@ -74,7 +74,9 @@ export default function Auth(props) {
 				}
 				Alert.alert("錯誤", message);
 			}
-		} else {
+		} 
+		// --- SIGNUP ---
+		else {
 			try {
 				const response = await axios.post(
 					`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${props.apiKey}`,
@@ -87,7 +89,7 @@ export default function Auth(props) {
 						"Content-Type": "application/json",
 					}
 				);
-				dispatch(authActions.signUp(response, token));
+				dispatch(authActions.authenticate(response, token));
 			} catch (err) {
 				// Error handling
 				let message = "處理您的信息時出錯。";

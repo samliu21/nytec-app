@@ -1,3 +1,4 @@
+// Superclass
 export default class Model {
 	constructor(id, name, image) {
 		this.id = id;

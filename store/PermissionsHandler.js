@@ -8,6 +8,7 @@ import * as notificationActions from "./actions/notification";
 import * as authActions from "./actions/auth";
 import { useSelector } from "react-redux";
 
+// Allow foreground notifications
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
 		shouldShowAlert: true,
@@ -22,18 +23,20 @@ export default function PermissionsHandler(props) {
 
 	const dispatch = useDispatch();
 
+	// Request notification permissions
 	useEffect(() => {
 		const notificationSetup = async () => {
 			try {
 				const { status } = await Notifications.getPermissionsAsync();
 				let finalStatus = status;
+				// Will not request permissions more than once. User is required to change their permissions from their settings
 				if (status !== "granted") {
 					const { status } =
 						await Notifications.requestPermissionsAsync();
 					finalStatus = status;
 				}
 				if (finalStatus !== "granted") {
-					alert("Failed to get push token!");
+					console.log("Notifications aren't allowed!");
 					return;
 				}
 
@@ -52,6 +55,7 @@ export default function PermissionsHandler(props) {
 		notificationSetup();
 	}, []);
 
+	// Attempt to auto-login
 	useEffect(() => {
 		const getData = async () => {
 			const jsonData = await AsyncStorage.getItem("userData");
@@ -64,9 +68,9 @@ export default function PermissionsHandler(props) {
 					setIsLoading(false);
 					return;
 				}
-				
+
 				dispatch(
-					authActions.autoLogin(
+					authActions.sendToRedux(
 						data.idToken,
 						data.userId,
 						data.email,

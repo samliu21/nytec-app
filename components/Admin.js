@@ -9,15 +9,18 @@ import CustomButton from "./CustomButton";
 import Background from "./Background";
 
 export default function Admin() {
+	// Input states
 	const [title, setTitle] = useState("");
 	const [message, setMessage] = useState("");
 
 	const idToken = useSelector((state) => state.auth.idToken);
 
+	// Handle title change
 	const titleChangeHandler = (text) => {
 		setTitle(text);
 	};
 
+	// Handle message change
 	const messageChangeHandler = (text) => {
 		setMessage(text);
 	};
@@ -25,7 +28,7 @@ export default function Admin() {
 	const sendNotification = async () => {
 		const tokenList = new Set();
 
-		// Obtain all push tokens
+		// Obtain all push tokens and add them to a set so they're unique
 		try {
 			const response = await axios.get(
 				`https://nytec-practice-default-rtdb.firebaseio.com/tokens.json?auth=${idToken}`
@@ -46,7 +49,7 @@ export default function Admin() {
 		const failedTokens = [];
 		let errorCount = 0;
 
-		// Send all push tokens
+		// Make push notification API request to Expo notification endpoint
 		const send = async (token) => {
 			try {
 				await axios.post(
@@ -95,24 +98,18 @@ export default function Admin() {
 
 	const notificationClickHandler = () => {
 		const confirmContent = () => {
-			Alert.alert(
-				"您的留言",
-				`Title: ${title}\nMessage: ${message}`,
-				[
-					{ text: "取消", style: "destructive" },
-					{ text: "發送", onPress: sendNotification },
-				]
-			);
+			// Confirm that admin wants to do this
+			Alert.alert("你確定嗎?", "將向所有用戶發送通知.", [
+				{ text: "Cancel", style: "destructive" },
+				{ text: "Yes", onPress: sendNotification },
+			]);
 		};
 
-		Alert.alert(
-			"你確定嗎?",
-			"將向所有用戶發送通知.",
-			[
-				{ text: "Cancel", style: "destructive" },
-				{ text: "Yes", onPress: confirmContent },
-			]
-		);
+		// Show message
+		Alert.alert("您的留言", `Title: ${title}\nMessage: ${message}`, [
+			{ text: "取消", style: "destructive" },
+			{ text: "發送", onPress: confirmContent },
+		]);
 	};
 
 	return (
