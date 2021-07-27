@@ -30,7 +30,6 @@ export default function VerifyEmail(props) {
 		} catch (err) {
 			let message = "無法發送您的驗證電子郵件。";
 			if (err.response) {
-				console.log(err.response.data.error.message);
 				switch (err.response.data.error.message) {
 					case "INVALID_ID_TOKEN":
 						message = "您的 ID 無效。請重新登錄以獲取新的。";
@@ -45,7 +44,10 @@ export default function VerifyEmail(props) {
 
 		if (attempts === 3) {
 			// Second time failing
-			Alert.alert("還是不工作嗎?", "請在下一頁檢查您的電子郵件是否正確。");
+			Alert.alert(
+				"還是不工作嗎?",
+				"請在下一頁檢查您的電子郵件是否正確。"
+			);
 		}
 		setAttempts((state) => state + 1);
 	};
@@ -71,8 +73,7 @@ export default function VerifyEmail(props) {
 			if (err.response) {
 				switch (err.response.data.error.message) {
 					case "INVALID_ID_TOKEN":
-						message =
-							"您的 ID 無效。請重新登錄以獲取新的。";
+						message = "您的 ID 無效。請重新登錄以獲取新的。";
 					case "USER_NOT_FOUND":
 						message = "找不到用戶。";
 				}
@@ -88,7 +89,7 @@ export default function VerifyEmail(props) {
 				<Logo />
 				<Text style={styles.heading}>您的電子郵件未經驗證!</Text>
 				<Text style={styles.body}>
-					單擊發送電子郵件以接收您的驗證鏈接，我有完成後驗證.
+					按左鍵發送驗證郵件。 驗證完成後按右鍵
 				</Text>
 				<View style={styles.buttonContainer}>
 					<CustomButton onPress={sendEmailHandler}>

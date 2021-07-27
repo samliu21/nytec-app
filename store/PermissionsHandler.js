@@ -50,15 +50,6 @@ export default function PermissionsHandler(props) {
 		};
 
 		notificationSetup();
-
-		const foregroundSubscription =
-			Notifications.addNotificationReceivedListener((notification) => {
-				console.log(notification);
-			});
-
-		return () => {
-			foregroundSubscription.remove();
-		};
 	}, []);
 
 	useEffect(() => {
