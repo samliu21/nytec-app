@@ -1,7 +1,4 @@
-import {
-	LOGOUT,
-	AUTHENTICATE,
-} from "../actions/auth";
+import { LOGOUT, AUTHENTICATE, SET_EMAIL_VERIFIED } from "../actions/auth";
 
 const initialState = {
 	idToken: null,
@@ -21,6 +18,11 @@ export default reducer = (state = initialState, action) => {
 				email: action.email,
 				role: action.role,
 				emailVerified: action.emailVerified,
+			};
+		case SET_EMAIL_VERIFIED:
+			return {
+				...state,
+				emailVerified: action.value,
 			};
 		case LOGOUT:
 			return initialState;

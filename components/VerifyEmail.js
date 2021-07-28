@@ -27,7 +27,7 @@ export default function VerifyEmail(props) {
 				}
 			);
 
-			Alert.alert("驗證鏈接已發送至您的郵箱!");
+			Alert.alert("驗證鏈接已發送至您的郵箱!", "請檢查您的垃圾郵件或垃圾郵件文件夾。");
 		} catch (err) {
 			let message = "無法發送您的驗證電子郵件。";
 			if (err.response) {
@@ -63,6 +63,7 @@ export default function VerifyEmail(props) {
 				}
 			);
 
+			// console.log(verify.data);
 			const emailVerified = verify.data.users[0].emailVerified;
 
 			// If the user has not verified their email
@@ -75,6 +76,7 @@ export default function VerifyEmail(props) {
 			dispatch(authActions.setEmailVerified(emailVerified));
 		} catch (err) {
 			let message = "無法驗證您。";
+			console.dir(err);
 			if (err.response) {
 				switch (err.response.data.error.message) {
 					case "INVALID_ID_TOKEN":

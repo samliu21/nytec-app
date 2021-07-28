@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, ImageBackground } from "react-native";
 
-import background from "../constants/images/appBackground.png";
+import background from "../assets/appBackground.png";
 
 export default function Background(props) {
 	return (

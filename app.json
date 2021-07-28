@@ -4,11 +4,11 @@
 		"slug": "nytec-app",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/icon.png",
+		"icon": "./assets/appLogo.png", 
+		"primaryColor": "#FFFFFF",
 		"splash": {
-			"image": "./assets/splash.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
+			"image": "./assets/splash-screen.png",
+			"resizeMode": "contain"
 		},
 		"extra": {
 			"apiKey": "AIzaSyBGB5fNb0pgtMfj4ZrnFxgD1-LryeSnQMo"
@@ -19,7 +19,7 @@
 		"assetBundlePatterns": ["**/*"],
 		"android": {
 			"adaptiveIcon": {
-				"foregroundImage": "./assets/adaptive-icon.png",
+				"foregroundImage": "./assets/appLogo.png",
 				"backgroundColor": "#FFFFFF"
 			},
 			"useNextNotificationsApi": true

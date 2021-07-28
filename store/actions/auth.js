@@ -11,18 +11,23 @@ export const SET_EMAIL_VERIFIED = "SET_EMAIL_VERIFIED";
 // Auto logout timer (upon token expiry)
 let timer;
 
+export const setEmailVerified = (val) => {
+	return {
+		type: SET_EMAIL_VERIFIED,
+		value: val,
+	};
+};
+
 // Set idToken, userId, email, user role, and email verification status to redux
 // Start the logout timer, which triggers a logout after an hour—when the idToken expires
 export const sendToRedux = (idToken, userId, email, role, emailVerified) => {
-	return async (dispatch) => {
-		dispatch({
-			type: AUTHENTICATE,
-			idToken: idToken,
-			userId: userId,
-			email: email,
-			role: role,
-			emailVerified: emailVerified,
-		});
+	return {
+		type: AUTHENTICATE,
+		idToken: idToken,
+		userId: userId,
+		email: email,
+		role: role,
+		emailVerified: emailVerified,
 	};
 };
 
@@ -130,7 +135,7 @@ const sendToDatabase = async (
 					expirationDate: expirationDate,
 				})
 			);
-			
+
 			// If user doesn't have a role yet, set it
 			if (!loginResponse.data) {
 				await axios.put(

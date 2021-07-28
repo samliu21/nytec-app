@@ -7,7 +7,7 @@ export default function Logo() {
 	return (
 		<View style={styles.imageContainer}>
 			<Image
-				source={require("../constants/images/紐神.png")}
+				source={require("../assets/紐神.png")}
 				style={styles.image}
 			/>
 		</View>
