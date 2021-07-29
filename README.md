@@ -1,8 +1,10 @@
 # Developer Documentation
 
-<img src="assets/home-screen.png" style="width: 33%">
-<img src="assets/account-screen.png" style="width: 33%">
-<img src="assets/admin-screen.png" style="width: 33%">
+<div>
+    <img src="assets/home-screen.png" width=33%>
+    <img src="assets/account-screen.png" width=33%>
+    <img src="assets/admin-screen.png" width=33%>
+</div>
 
 ## Overview
 The app uses React Native (Expo) as a code framework, with <a href="https://reactnavigation.org">React Navigation</a> for app navigation and <a href="https://redux.js.org">Redux</a> for state management. Firebase is used as the backend and database.
