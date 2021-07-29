@@ -63,7 +63,6 @@ export default function VerifyEmail(props) {
 				}
 			);
 
-			// console.log(verify.data);
 			const emailVerified = verify.data.users[0].emailVerified;
 
 			// If the user has not verified their email

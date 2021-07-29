@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { StyleSheet, Text, Alert } from "react-native";
 import Constants from "expo-constants";
+import { smallFontSize } from "../constants/Sizes";
 
 export default function PasswordChange(props) {
 	const passwordChangeHandler = () => {
@@ -47,6 +48,6 @@ const styles = StyleSheet.create({
 	text: {
 		color: "white",
 		marginTop: 20,
-		fontSize: 15,
+		fontSize: smallFontSize,
 	},
 });

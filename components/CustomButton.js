@@ -2,6 +2,7 @@ import React from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
 
 import Colors from "../constants/Colors";
+import { mediumFontSize } from "../constants/Sizes";
 
 export default function CustomButton(props) {
 	return (
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		color: Colors.accent,
+		fontSize: mediumFontSize,
 		textAlign: "center",
 		fontWeight: "bold",
 	},

@@ -12,3 +12,6 @@ export const buttonWidth = flatListWidth / 4;
 // Left & right: 1 each, between: 2; total is six
 // We calculate the required horizontal margin based on this
 export const horizontalMargin = (flatListWidth - 3 * buttonWidth) / 6;
+
+export const smallFontSize = screenWidth / 40;
+export const mediumFontSize = screenWidth / 30;

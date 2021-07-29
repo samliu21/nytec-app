@@ -1,7 +1,10 @@
 import React from "react";
-import { TextInput, StyleSheet } from "react-native";
+import { TextInput, StyleSheet, Dimensions } from "react-native";
 
 import Colors from "../constants/Colors";
+import { mediumFontSize } from "../constants/Sizes";
+
+const width = Dimensions.get("screen").width;
 
 export default function Input(props) {
 	const { style, placeholder, secureTextEntry, value, onChangeText } = props;
@@ -21,9 +24,9 @@ export default function Input(props) {
 
 const styles = StyleSheet.create({
 	input: {
-		padding: 10,
+		padding: width / 40,
 		marginTop: 10,
-		fontSize: 14,
+		fontSize: mediumFontSize,
 		color: "black",
 		backgroundColor: Colors.light,
 	},

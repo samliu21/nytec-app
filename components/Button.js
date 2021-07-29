@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 
-import { buttonWidth, horizontalMargin } from "../constants/Sizes";
+import { buttonWidth, horizontalMargin, smallFontSize } from "../constants/Sizes";
 
 export default function Button(props) {
 	const item = props.item;
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: horizontalMargin,
 		width: buttonWidth,
 		alignItems: "center",
-		marginBottom: 10,
+		marginBottom: "3%",
 	},
 	touchable: {
 		width: "100%",
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		color: "white",
 		fontWeight: "bold",
+		fontSize: smallFontSize,
 		marginTop: 6,
 	},
 });
