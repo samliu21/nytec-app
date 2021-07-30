@@ -5,8 +5,11 @@ import Colors from "../constants/Colors";
 import { smallFontSize } from "../constants/Sizes";
 
 export default function CustomButton(props) {
+	const { style } = props;
+	const containerStyle = { ...styles.container, ...style };
+
 	return (
-		<TouchableOpacity {...props} style={styles.container}>
+		<TouchableOpacity {...props} style={containerStyle}>
 			<Text style={styles.text}>{props.children}</Text>
 		</TouchableOpacity>
 	);

@@ -7,9 +7,17 @@ export const SET_ROLE = "SET_ROLE";
 export const LOGOUT = "LOGOUT";
 export const AUTO_LOGIN = "AUTO_LOGIN";
 export const SET_EMAIL_VERIFIED = "SET_EMAIL_VERIFIED";
+export const SET_ID_TOKEN = "SET_ID_TOKEN";
 
 // Auto logout timer (upon token expiry)
 let timer;
+
+export const setIdToken = (val) => {
+	return {
+		type: SET_ID_TOKEN,
+		idToken: val,
+	}
+}
 
 export const setEmailVerified = (val) => {
 	return {
