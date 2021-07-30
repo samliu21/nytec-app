@@ -9,6 +9,7 @@ import * as authActions from "../store/actions/auth";
 import Background from "./Background";
 import CustomButton from "./CustomButton";
 import Logo from "./Logo";
+import { largeFontSize, mediumFontSize } from "../constants/Sizes";
 
 export default function VerifyEmail(props) {
 	const idToken = useSelector((state) => state.auth.idToken);
@@ -124,13 +125,13 @@ const styles = StyleSheet.create({
 		padding: 20,
 	},
 	heading: {
-		fontSize: 20,
+		fontSize: largeFontSize,
 		color: Colors.light,
 		fontWeight: "500",
 		marginBottom: 10,
 	},
 	body: {
-		fontSize: 16,
+		fontSize: mediumFontSize,
 		color: "white",
 	},
 });

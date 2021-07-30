@@ -11,12 +11,16 @@ import Admin from "../components/Admin";
 import Account from "../components/Account";
 import Colors from "../constants/Colors";
 import VerifyEmail from "../components/VerifyEmail";
+import { mediumFontSize } from "../constants/Sizes";
 
 // Default stack navigator header style
 const defaultStyle = {
 	headerTintColor: Colors.primary,
 	headerStyle: {
 		backgroundColor: Colors.light,
+	},
+	headerTitleStyle: {
+		fontSize: mediumFontSize,
 	},
 	headerTitleAlign: "center",
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
 
 import Colors from "../constants/Colors";
-import { mediumFontSize } from "../constants/Sizes";
+import { smallFontSize } from "../constants/Sizes";
 
 export default function CustomButton(props) {
 	return (
@@ -15,14 +15,14 @@ export default function CustomButton(props) {
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: Colors.light,
-		paddingVertical: "2.5%",
-		paddingHorizontal: "4%",
+		paddingVertical: "2.2%",
+		paddingHorizontal: "3.3%",
 		width: "auto",
 		alignSelf: "center",
 	},
 	text: {
 		color: Colors.accent,
-		fontSize: mediumFontSize,
+		fontSize: smallFontSize,
 		textAlign: "center",
 		fontWeight: "bold",
 	},

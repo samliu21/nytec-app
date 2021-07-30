@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import Colors from "../constants/Colors";
+import { smallFontSize, mediumFontSize } from "../constants/Sizes";
 
 import * as authActions from "../store/actions/auth";
 import Background from "./Background";
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
 	},
 	email: {
 		color: "white",
-		fontSize: 18,
+		fontSize: smallFontSize,
 		fontWeight: "bold",
 		fontStyle: "italic",
 	},
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 30,
 		borderRadius: 15,
 		backgroundColor: Colors.complement,
-		marginBottom: 40,
+		marginBottom: "8%",
 		shadowOffset: { width: 0, height: 3 },
         shadowRadius: 6,
         shadowOpacity: 0.5,
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
 		marginTop: 15,
 		marginBottom: 20,
 		color: "white",
-		fontSize: 16,
+		fontSize: mediumFontSize,
 		textAlign: "center",
 	},
 });

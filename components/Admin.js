@@ -7,6 +7,7 @@ import Colors from "../constants/Colors";
 import Input from "./Input";
 import CustomButton from "./CustomButton";
 import Background from "./Background";
+import { mediumFontSize } from "../constants/Sizes";
 
 export default function Admin() {
 	// Input states
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
 	label: {
 		marginTop: 15,
 		color: "white",
-		fontSize: 17,
+		fontSize: mediumFontSize,
 		fontWeight: "500",
 	},
 	messageInput: {
