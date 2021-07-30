@@ -6,7 +6,8 @@ import { smallFontSize, mediumFontSize } from "../constants/Sizes";
 
 import Background from "./Background";
 import LogoutButton from "./LogoutButton";
-import PasswordChange from "./PasswordChange";
+// import PasswordChange from "./PasswordChange";
+import PasswordReset from "./PasswordReset";
 
 export default function Account() {
 	const email = useSelector((state) => state.auth.email);
@@ -19,7 +20,8 @@ export default function Account() {
 					<Text style={styles.email}>{email}</Text>
 				</View>
 				<LogoutButton />
-				<PasswordChange email={email}>更改您的密碼</PasswordChange>
+				<PasswordReset email={email}>更改您的密碼</PasswordReset>
+				{/* <PasswordChange email={email}>更改您的密碼</PasswordChange> */}
 			</View>
 		</Background>
 	);
