@@ -16,8 +16,8 @@ export default function Logo() {
 
 const styles = StyleSheet.create({
 	image: {
-		width: width / 2,
-		height: width / 2,
+		width: width / 2.3,
+		height: width / 2.3,
 	},
 	imageContainer: {
 		alignItems: "center",

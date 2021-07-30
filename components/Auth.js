@@ -74,7 +74,7 @@ export default function Auth(props) {
 				}
 				Alert.alert("錯誤", message);
 			}
-		} 
+		}
 		// --- SIGNUP ---
 		else {
 			try {
@@ -108,8 +108,7 @@ export default function Auth(props) {
 							message = "太多的嘗試。";
 							break;
 						case "WEAK_PASSWORD : Password should be at least 6 characters":
-							message =
-								"密碼應至少為 6 個字。";
+							message = "密碼應至少為 6 個字。";
 							break;
 					}
 				}
@@ -140,30 +139,30 @@ export default function Auth(props) {
 		<Background>
 			<View style={styles.container}>
 				<Logo />
-				<KeyboardAvoidingView
+				{/* <KeyboardAvoidingView
 					behavior="position"
 					keyboardVerticalOffset={headerHeight + 10}
-				>
+				> */}
+				<Input
+					value={email}
+					onChangeText={emailChangeHandler}
+					placeholder="電郵 (Email)"
+				/>
+				<Input
+					value={password}
+					onChangeText={passwordChangeHandler}
+					placeholder="密碼 (Password)"
+					secureTextEntry
+				/>
+				{!isLogin && (
 					<Input
-						value={email}
-						onChangeText={emailChangeHandler}
-						placeholder="電郵 (Email)"
-					/>
-					<Input
-						value={password}
-						onChangeText={passwordChangeHandler}
-						placeholder="密碼 (Password)"
+						value={retypedPassword}
+						onChangeText={retypePasswordChangeHandler}
+						placeholder="重新輸入您的密碼 (Retype password)"
 						secureTextEntry
 					/>
-					{!isLogin && (
-						<Input
-							value={retypedPassword}
-							onChangeText={retypePasswordChangeHandler}
-							placeholder="重新輸入您的密碼 (Retype password)"
-							secureTextEntry
-						/>
-					)}
-				</KeyboardAvoidingView>
+				)}
+				{/* </KeyboardAvoidingView> */}
 				<View style={styles.buttonContainer}>
 					<CustomButton onPress={submitHandler}>提交</CustomButton>
 					<CustomButton onPress={switchModeHandler}>
