@@ -11,7 +11,7 @@ import Admin from "../components/Admin";
 import Account from "../components/Account";
 import Colors from "../constants/Colors";
 import VerifyEmail from "../components/VerifyEmail";
-import { mediumFontSize } from "../constants/Sizes";
+import { mediumFontSize, smallFontSize } from "../constants/Sizes";
 
 // Default stack navigator header style
 const defaultStyle = {
@@ -89,19 +89,21 @@ const bottomTabBarOptions = {
 		backgroundColor: Colors.light,
 	},
 	labelStyle: {
-		fontSize: 18,
+		fontSize: smallFontSize,
 	},
-	showLabel: false,
+	tabStyle: {
+		marginVertical: 5,
+	}
 };
 
 const bottomTabBarScreenOptions = (navData) => ({
 	tabBarIcon: (tabInfo) => {
-		if (navData.route.name === "App") {
-			return <Ionicons name="list" size={23} color={tabInfo.color} />;
-		} else if (navData.route.name === "Account") {
-			return <Ionicons name="person" size={23} color={tabInfo.color} />;
+		if (navData.route.name === "主页") {
+			return <Ionicons name="home" size={20} color={tabInfo.color} />;
+		} else if (navData.route.name === "帳戶") {
+			return <Ionicons name="person" size={20} color={tabInfo.color} />;
 		} else {
-			return <Ionicons name="key" size={23} color={tabInfo.color} />;
+			return <Ionicons name="key" size={20} color={tabInfo.color} />;
 		}
 	},
 });
@@ -112,15 +114,24 @@ const MainUserNavigatorBottomTabs = createBottomTabNavigator();
 const MainUserNavigator = (props) => {
 	return (
 		<MainUserNavigatorBottomTabs.Navigator
+			// tabBarOptions={{
+			// 	// labelStyle: {
+			// 	// 	marginBottom: 10,
+			// 	// 	marginTop: 5,
+			// 	// },
+			// 	tabStyle: {
+			// 		paddingVertical: 5,
+			// 	}
+			// }}
 			tabBarOptions={bottomTabBarOptions}
 			screenOptions={bottomTabBarScreenOptions}
 		>
 			<MainUserNavigatorBottomTabs.Screen
-				name="Main"
+				name="主页"
 				component={props.verified ? ButtonNavigator : VerifyNavigator}
 			/>
 			<MainUserNavigatorBottomTabs.Screen
-				name="Account"
+				name="帳戶"
 				component={AccountNavigator}
 			/>
 		</MainUserNavigatorBottomTabs.Navigator>
@@ -137,11 +148,11 @@ const MainAdminNavigator = (props) => {
 			screenOptions={bottomTabBarScreenOptions}
 		>
 			<MainAdminNavigatorBottomTabs.Screen
-				name="Main"
+				name="主页"
 				component={props.verified ? ButtonNavigator : VerifyNavigator}
 			/>
 			<MainAdminNavigatorBottomTabs.Screen
-				name="Account"
+				name="帳戶"
 				component={AccountNavigator}
 			/>
 			<MainAdminNavigatorBottomTabs.Screen
