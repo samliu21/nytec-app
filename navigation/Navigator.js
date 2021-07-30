@@ -114,15 +114,6 @@ const MainUserNavigatorBottomTabs = createBottomTabNavigator();
 const MainUserNavigator = (props) => {
 	return (
 		<MainUserNavigatorBottomTabs.Navigator
-			// tabBarOptions={{
-			// 	// labelStyle: {
-			// 	// 	marginBottom: 10,
-			// 	// 	marginTop: 5,
-			// 	// },
-			// 	tabStyle: {
-			// 		paddingVertical: 5,
-			// 	}
-			// }}
 			tabBarOptions={bottomTabBarOptions}
 			screenOptions={bottomTabBarScreenOptions}
 		>
