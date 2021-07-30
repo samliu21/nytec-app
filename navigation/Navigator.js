@@ -156,7 +156,7 @@ const MainAdminNavigator = (props) => {
 				component={AccountNavigator}
 			/>
 			<MainAdminNavigatorBottomTabs.Screen
-				name="Admin"
+				name="行政"
 				component={AdminNavigator}
 			/>
 		</MainAdminNavigatorBottomTabs.Navigator>

@@ -1,14 +1,11 @@
 import React, { useEffect } from "react";
-import {
-	StyleSheet,
-	SafeAreaView,
-	FlatList,
-} from "react-native";
+import { StyleSheet, SafeAreaView, FlatList, View } from "react-native";
 
 import Button from "./Button";
 import { flatListWidth } from "../constants/Sizes";
 import data from "../data/data";
 import Background from "./Background";
+import LogoutButton from "./LogoutButton";
 
 export default function ButtonList(props) {
 	// When ButtonList is called initially from the navigator, it won't have props
@@ -44,6 +41,11 @@ export default function ButtonList(props) {
 					numColumns={3}
 					contentContainerStyle={styles.flatList}
 				/>
+				{items === data.children && (
+					<View style={styles.buttonContainer}>
+						<LogoutButton />
+					</View>
+				)}
 			</SafeAreaView>
 		</Background>
 	);
@@ -52,6 +54,9 @@ export default function ButtonList(props) {
 const styles = StyleSheet.create({
 	background: {
 		flex: 1,
+	},
+	buttonContainer: {
+		marginBottom: "6%",
 	},
 	container: {
 		flex: 1,

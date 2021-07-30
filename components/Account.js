@@ -1,22 +1,15 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Colors from "../constants/Colors";
 import { smallFontSize, mediumFontSize } from "../constants/Sizes";
 
-import * as authActions from "../store/actions/auth";
 import Background from "./Background";
-import CustomButton from "./CustomButton";
 import PasswordChange from "./PasswordChange";
+import LogoutButton from "./LogoutButton";
 
 export default function Account() {
 	const email = useSelector((state) => state.auth.email);
-
-	const dispatch = useDispatch();
-
-	const logoutHandler = () => {
-		dispatch(authActions.logout());
-	};
 
 	return (
 		<Background>
@@ -25,7 +18,7 @@ export default function Account() {
 				<View style={styles.emailContainer}>
 					<Text style={styles.email}>{email}</Text>
 				</View>
-				<CustomButton onPress={logoutHandler}>注销</CustomButton>
+				<LogoutButton />
 				<PasswordChange>更改您的密碼</PasswordChange>
 			</View>
 		</Background>
