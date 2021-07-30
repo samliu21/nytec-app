@@ -5,8 +5,8 @@ import Colors from "../constants/Colors";
 import { smallFontSize, mediumFontSize } from "../constants/Sizes";
 
 import Background from "./Background";
-import PasswordChange from "./PasswordChange";
 import LogoutButton from "./LogoutButton";
+import PasswordChange from "./PasswordChange";
 
 export default function Account() {
 	const email = useSelector((state) => state.auth.email);

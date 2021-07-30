@@ -41,6 +41,7 @@ export const authenticate = (response, pushToken) => {
 			const email = response.data.email;
 			const expirationTime = response.data.expiresIn;
 			const expiresIn = +expirationTime * 1000;
+			console.log(idToken);
 
 			const expirationDate = new Date(
 				new Date().getTime() + expiresIn
@@ -106,7 +107,7 @@ const sendToDatabase = async (
 		if (userId && idToken) {
 			// Attempt to get user role
 			const loginResponse = await axios.get(
-				`https://nytec-practice-default-rtdb.firebaseio.com/users/${userId}.json?auth=${idToken}`
+				`https://nytec-app-default-rtdb.firebaseio.com//users/${userId}.json?auth=${idToken}`
 			);
 
 			role = loginResponse.data ? loginResponse.data.role : "user";
@@ -139,7 +140,7 @@ const sendToDatabase = async (
 			// If user doesn't have a role yet, set it
 			if (!loginResponse.data) {
 				await axios.put(
-					`https://nytec-practice-default-rtdb.firebaseio.com/users/${userId}.json?auth=${idToken}`,
+					`https://nytec-app-default-rtdb.firebaseio.com//users/${userId}.json?auth=${idToken}`,
 					{
 						role: "user",
 					},
@@ -159,7 +160,7 @@ const sendToDatabase = async (
 		// If push token and user id exist, fetch current token list and append new token if not already in the list
 		if (pushToken && userId && idToken) {
 			const response = await axios.get(
-				`https://nytec-practice-default-rtdb.firebaseio.com/tokens/${userId}.json?auth=${idToken}`
+				`https://nytec-app-default-rtdb.firebaseio.com//tokens/${userId}.json?auth=${idToken}`
 			);
 
 			const tokens = response.data ? response.data.tokens : null;
@@ -169,7 +170,7 @@ const sendToDatabase = async (
 				updatedTokenList.push(pushToken);
 
 				await axios.put(
-					`https://nytec-practice-default-rtdb.firebaseio.com/tokens/${userId}.json?auth=${idToken}`,
+					`https://nytec-app-default-rtdb.firebaseio.com//tokens/${userId}.json?auth=${idToken}`,
 					{
 						tokens: updatedTokenList,
 					},

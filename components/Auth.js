@@ -10,8 +10,8 @@ import Input from "./Input";
 import CustomButton from "./CustomButton";
 import Background from "./Background";
 import Loading from "./Loading";
-import PasswordChange from "./PasswordChange";
 import Logo from "./Logo";
+import PasswordReset from "./PasswordReset";
 
 export default function Auth(props) {
 	const [email, setEmail] = useState("");
@@ -169,7 +169,7 @@ export default function Auth(props) {
 						切換到{isLogin ? "報名" : "登錄"}
 					</CustomButton>
 				</View>
-				<PasswordChange>忘記密碼了嗎？</PasswordChange>
+				<PasswordReset>忘記密碼了嗎? 點擊這裡!</PasswordReset>
 				{isLoading && <Loading />}
 			</View>
 		</Background>
