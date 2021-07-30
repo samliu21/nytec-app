@@ -89,6 +89,7 @@ export default function Auth(props) {
 						"Content-Type": "application/json",
 					}
 				);
+
 				dispatch(authActions.authenticate(response, token));
 			} catch (err) {
 				// Error handling

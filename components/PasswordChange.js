@@ -4,13 +4,14 @@ import { useDispatch } from "react-redux";
 import Constants from "expo-constants";
 
 import * as authActions from "../store/actions/auth";
-import { smallFontSize } from "../constants/Sizes";
+import { mediumFontSize } from "../constants/Sizes";
 import CustomButton from "./CustomButton";
 import Input from "./Input";
 import axios from "axios";
 
 export default function PasswordChange(props) {
-	const [changing, setChanging] = useState(false);
+	const { changing, setChanging } = props;
+
 	const [originalPassword, setOriginalPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const [retypedPassword, setRetypedPassword] = useState("");
@@ -59,7 +60,7 @@ export default function PasswordChange(props) {
 		console.log("New idToken was obtained");
 
 		try {
-			axios.post(
+			await axios.post(
 				`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${props.apiKey}`,
 				{
 					idToken: idToken,
@@ -70,16 +71,22 @@ export default function PasswordChange(props) {
 				}
 			);
 
-			dispatch(authActions.logout());
+			Alert.alert("成功!", "密碼已更改。 請重新登錄。", [
+				{
+					text: "Ok",
+					onPress: () => dispatch(authActions.logout()),
+				},
+			]);
 		} catch (err) {
 			let message = "處理您的信息時出錯。";
 			if (err.response) {
+				console.log(err.response.data.error.message);
 				switch (err.response.data.error.message) {
 					case "INVALID_ID_TOKEN":
 						message = "您的 ID 無效。請重新登錄以獲取新的。";
 						break;
-					case "WEAK_PASSWORD":
-						message = "無效的密碼。";
+					case "WEAK_PASSWORD : Password should be at least 6 characters":
+						message = "密碼應至少為 6 個字。";
 						break;
 				}
 			}
@@ -87,14 +94,9 @@ export default function PasswordChange(props) {
 		}
 	};
 
-	const textStyles = {
-		...styles.text,
-		marginTop: changing ? "10%" : 20,
-	};
-
 	return (
 		<View style={styles.container}>
-			<Text style={textStyles} onPress={pressHandler}>
+			<Text style={styles.text} onPress={pressHandler}>
 				{changing ? "取消" : props.children}
 			</Text>
 			{changing && (
@@ -144,7 +146,7 @@ const styles = StyleSheet.create({
 	text: {
 		color: "white",
 		marginTop: 20,
-		fontSize: smallFontSize,
+		fontSize: mediumFontSize,
 		textAlign: "center",
 	},
 });

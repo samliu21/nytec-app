@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import Colors from "../constants/Colors";
@@ -7,21 +7,31 @@ import { smallFontSize, mediumFontSize } from "../constants/Sizes";
 import Background from "./Background";
 import LogoutButton from "./LogoutButton";
 import PasswordChange from "./PasswordChange";
-import PasswordReset from "./PasswordReset";
 
 export default function Account() {
 	const email = useSelector((state) => state.auth.email);
 
+	const [changing, setChanging] = useState(false);
+
 	return (
 		<Background>
 			<View style={styles.container}>
-				<Text style={styles.loginText}>電郵:</Text>
-				<View style={styles.emailContainer}>
-					<Text style={styles.email}>{email}</Text>
-				</View>
-				<LogoutButton />
-				{/* <PasswordReset email={email}>更改您的密碼</PasswordReset> */}
-				<PasswordChange email={email}>更改您的密碼</PasswordChange>
+				{!changing && (
+					<View>
+						<Text style={styles.loginText}>電郵:</Text>
+						<View style={styles.emailContainer}>
+							<Text style={styles.email}>{email}</Text>
+						</View>
+						<LogoutButton />
+					</View>
+				)}
+				<PasswordChange
+					email={email}
+					changing={changing}
+					setChanging={setChanging}
+				>
+					更改您的密碼
+				</PasswordChange>
 			</View>
 		</Background>
 	);
