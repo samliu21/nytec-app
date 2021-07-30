@@ -17,4 +17,3 @@ export default function LogoutButton() {
 
 	return <CustomButton onPress={logoutHandler}>注销</CustomButton>;
 }
-

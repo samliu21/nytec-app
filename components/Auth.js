@@ -166,7 +166,7 @@ export default function Auth(props) {
 				<View style={styles.buttonContainer}>
 					<CustomButton onPress={submitHandler}>提交</CustomButton>
 					<CustomButton onPress={switchModeHandler}>
-						{isLogin ? "報名" : "登錄"}
+						切換到{isLogin ? "報名" : "登錄"}
 					</CustomButton>
 				</View>
 				<PasswordChange>忘記密碼了嗎？</PasswordChange>
