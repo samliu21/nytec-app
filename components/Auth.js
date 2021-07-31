@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Alert, KeyboardAvoidingView } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { useHeaderHeight } from "@react-navigation/stack";
+// import { useHeaderHeight } from "@react-navigation/stack";
 import Constants from "expo-constants";
 
 import * as authActions from "../store/actions/auth";
@@ -23,7 +23,7 @@ export default function Auth(props) {
 	const token = useSelector((state) => state.notification.pushToken);
 
 	const dispatch = useDispatch();
-	const headerHeight = useHeaderHeight();
+	// const headerHeight = useHeaderHeight();
 
 	// Sets title in the navigation bar
 	useEffect(() => {
@@ -59,8 +59,13 @@ export default function Auth(props) {
 			} catch (err) {
 				let message = "處理您的信息時出錯。";
 				if (err.response) {
+					console.log(err.response.data.error.message);
 					switch (err.response.data.error.message) {
 						// Login errors
+						case "TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.":
+							message =
+								"你有太多失敗的嘗試。 請重置您的密碼或稍後重試。";
+							break;
 						case "EMAIL_NOT_FOUND":
 							message = "電子郵件不存在。";
 							break;
@@ -167,7 +172,7 @@ export default function Auth(props) {
 				<View style={styles.buttonContainer}>
 					<CustomButton onPress={submitHandler}>提交</CustomButton>
 					<CustomButton onPress={switchModeHandler}>
-						切換到{isLogin ? "報名" : "登錄"}
+						{isLogin ? "建立新帳戶" : "切換到登錄"}
 					</CustomButton>
 				</View>
 				<PasswordReset>忘記密碼了嗎? 點擊這裡!</PasswordReset>

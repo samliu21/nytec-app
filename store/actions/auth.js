@@ -49,7 +49,6 @@ export const authenticate = (response, pushToken) => {
 			const email = response.data.email;
 			const expirationTime = response.data.expiresIn;
 			const expiresIn = +expirationTime * 1000;
-			console.log(idToken);
 
 			const expirationDate = new Date(
 				new Date().getTime() + expiresIn

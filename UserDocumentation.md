@@ -23,4 +23,6 @@ At the bottom of the login page, you'll find an option to reset your password. C
 
 Make sure to check your junk or spam inboxes! If you still don't receive an email, please contact me at sam4button@gmail.com and I'll work with you on the problem as quickly as I can.
 
+3. How do I receive notifications?
 
+Go to `Settings > Notifications > Expo Go > Allow Notifications`. Then logout and log back in.

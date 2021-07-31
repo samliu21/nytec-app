@@ -1,11 +1,11 @@
 {
 	"expo": {
-		"name": "nytec-app",
+		"name": "NYTEC",
 		"slug": "nytec-app",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/appLogo.png", 
-		"primaryColor": "#FFFFFF",
+		"icon": "./assets/app-logo.png",
+		"primaryColor": "#E3E4E6",
 		"splash": {
 			"image": "./assets/splash-screen.png",
 			"resizeMode": "contain"
@@ -16,13 +16,20 @@
 		"updates": {
 			"fallbackToCacheTimeout": 0
 		},
-		"assetBundlePatterns": ["**/*"],
+		"assetBundlePatterns": ["assets/*"],
+		"ios": {
+			"bundleIdentifier": "com.nytec.nytec",
+			"buildNumber": "1.0.0"
+		},
 		"android": {
+			"package": "com.nytec.nytec",
+			"versionCode": 1,
 			"adaptiveIcon": {
-				"foregroundImage": "./assets/appLogo.png",
-				"backgroundColor": "#FFFFFF"
+				"foregroundImage": "./assets/app-logo.png",
+				"backgroundColor": "#E3E4E6"
 			},
-			"useNextNotificationsApi": true
+			"useNextNotificationsApi": true,
+			"permissions": ["READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"

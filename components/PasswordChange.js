@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Alert } from "react-native";
 import { useDispatch } from "react-redux";
+import { useNavigation } from "@react-navigation/core";
 import Constants from "expo-constants";
 
 import * as authActions from "../store/actions/auth";
@@ -17,11 +18,18 @@ export default function PasswordChange(props) {
 	const [retypedPassword, setRetypedPassword] = useState("");
 
 	const dispatch = useDispatch();
+	const navigation = useNavigation();
 
 	const pressHandler = () => {
+		if (changing) {
+			setOriginalPassword("");
+			setNewPassword("");
+			setRetypedPassword("");
+		}
 		setChanging((state) => !state);
 	};
 
+	// Attempt to sign in and replace idToken in redux state
 	const attemptToSignIn = async () => {
 		try {
 			const response = await axios.post(
@@ -46,11 +54,13 @@ export default function PasswordChange(props) {
 	};
 
 	const submitHandler = async () => {
+		// Check passwords match
 		if (newPassword !== retypedPassword) {
 			Alert.alert("密碼不匹配!", "請再試一次!");
 			return;
 		}
 
+		// Dispatch idToken to redux
 		const idToken = await attemptToSignIn();
 		if (!idToken) {
 			console.log("Password is incorrect");
@@ -74,13 +84,16 @@ export default function PasswordChange(props) {
 			Alert.alert("成功!", "密碼已更改。 請重新登錄。", [
 				{
 					text: "Ok",
-					onPress: () => dispatch(authActions.logout()),
+					onPress: () => {
+						navigation.replace("List");
+
+						dispatch(authActions.logout());
+					},
 				},
 			]);
 		} catch (err) {
 			let message = "處理您的信息時出錯。";
 			if (err.response) {
-				console.log(err.response.data.error.message);
 				switch (err.response.data.error.message) {
 					case "INVALID_ID_TOKEN":
 						message = "您的 ID 無效。請重新登錄以獲取新的。";
