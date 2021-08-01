@@ -62,36 +62,43 @@ export default function PermissionsHandler(props) {
 			const data = JSON.parse(jsonData);
 
 			if (data) {
-				const expirationDate = new Date(data.expirationDate);
+				const { idToken, userId, email, role, emailVerified } = data;
 
-				if (expirationDate <= new Date()) {
+				const expirationDate = new Date(data.expirationDate);
+				const timeDifference = expirationDate - new Date();
+
+				if (timeDifference <= 0) {
 					if (data.refreshToken) {
 						dispatch(authActions.refreshIdToken(data.refreshToken));
-					}
-					setIsLoading(false);
-					return;
-				}
 
-				dispatch(
-					authActions.sendToRedux(
-						data.idToken,
-						data.userId,
-						data.email,
-						data.role,
-						data.emailVerified,
-					)
-				);
-			} else {
-				setIsLoading(false);
+						dispatch(
+							authActions.sendToRedux({
+								userId: userId,
+								email: email,
+								role: role,
+								emailVerified: emailVerified,
+							})
+						);
+					}
+				} else {
+					dispatch(
+						authActions.sendToRedux({
+							idToken: idToken,
+							userId: userId,
+							email: email,
+							role: role,
+							emailVerified: emailVerified,
+						})
+					);
+
+					dispatch(authActions.setLogoutTimer(timeDifference));
+				}
 			}
+			setIsLoading(false);
 		};
 
 		getData();
 	}, []);
-
-	if (role && isLoading) {
-		setIsLoading(false);
-	}
 
 	// return props.children;
 	return isLoading ? <ActivityIndicator /> : props.children;

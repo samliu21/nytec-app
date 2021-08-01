@@ -69,6 +69,9 @@ export default function Auth(props) {
 						case "EMAIL_NOT_FOUND":
 							message = "電子郵件不存在。";
 							break;
+						case "INVALID_EMAIL":
+							message = "電子郵件無效。";
+							break;
 						case "INVALID_PASSWORD":
 							message = "無效的密碼。";
 							break;
@@ -103,6 +106,9 @@ export default function Auth(props) {
 					switch (err.response.data.error.message) {
 						case "EMAIL_EXISTS":
 							message = "電子郵件已經存在。";
+							break;
+						case "INVALID_EMAIL":
+							message = "電子郵件無效。";
 							break;
 						case "INVALID_PASSWORD":
 							message = "無效的密碼。";

@@ -1,9 +1,4 @@
-import {
-	LOGOUT,
-	AUTHENTICATE,
-	SET_EMAIL_VERIFIED,
-	SET_ID_TOKEN,
-} from "../actions/auth";
+import { LOGOUT, SEND_TO_REDUX } from "../actions/auth";
 
 const initialState = {
 	idToken: null,
@@ -15,25 +10,12 @@ const initialState = {
 
 export default reducer = (state = initialState, action) => {
 	switch (action.type) {
-		case AUTHENTICATE:
-			return {
-				...state,
-				idToken: action.idToken,
-				userId: action.userId,
-				email: action.email,
-				role: action.role,
-				emailVerified: action.emailVerified,
-			};
-		case SET_EMAIL_VERIFIED:
-			return {
-				...state,
-				emailVerified: action.value,
-			};
-		case SET_ID_TOKEN:
-			return {
-				...state,
-				idToken: action.idToken,
-			};
+		case SEND_TO_REDUX:
+			const newState = { ...state };
+			for (const key in action.kwargs) {
+				newState[key] = action.kwargs[key];
+			}
+			return newState;
 		case LOGOUT:
 			return initialState;
 		default:

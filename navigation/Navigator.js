@@ -93,7 +93,7 @@ const bottomTabBarOptions = {
 	},
 	tabStyle: {
 		marginVertical: 5,
-	}
+	},
 };
 
 const bottomTabBarScreenOptions = (navData) => ({

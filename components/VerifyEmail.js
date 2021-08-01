@@ -28,7 +28,10 @@ export default function VerifyEmail(props) {
 				}
 			);
 
-			Alert.alert("驗證鏈接已發送至您的郵箱!", "請檢查您的垃圾郵件或垃圾郵件文件夾。");
+			Alert.alert(
+				"驗證鏈接已發送至您的郵箱!",
+				"請檢查您的垃圾郵件或垃圾郵件文件夾。"
+			);
 		} catch (err) {
 			let message = "無法發送您的驗證電子郵件。";
 			if (err.response) {
@@ -73,7 +76,7 @@ export default function VerifyEmail(props) {
 			}
 
 			// Set redux state
-			dispatch(authActions.setEmailVerified(emailVerified));
+			dispatch(authActions.sendToRedux({ emailVerified: emailVerified }));
 		} catch (err) {
 			let message = "無法驗證您。";
 			console.dir(err);

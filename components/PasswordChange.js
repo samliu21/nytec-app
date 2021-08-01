@@ -44,9 +44,11 @@ export default function PasswordChange(props) {
 				}
 			);
 
-			const idToken = response.data.idToken;
-			const refreshToken = response.data.refreshToken;
-			return [idToken, refreshToken];
+			const { idToken, refreshToken, expiresIn } = response.data;
+			const expirationDate = new Date(
+				new Date().getTime() + +expiresIn * 1000
+			).toISOString();
+			return [idToken, refreshToken, expirationDate, expiresIn];
 		} catch (err) {
 			console.log(err.response.data.error.message);
 			Alert.alert("錯誤", "密碼不正確");
@@ -61,13 +63,24 @@ export default function PasswordChange(props) {
 			return;
 		}
 
-		// Dispatch idToken to redux
-		const [idToken, refreshToken] = await attemptToSignIn();
-		if (!idToken) {
+		const arr = await attemptToSignIn();
+		if (!arr) {
 			console.log("Password is incorrect");
 			return;
 		}
-		dispatch(authActions.setIdToken(idToken, refreshToken));
+
+		// Dispatch to redux and AsyncStorage
+
+		const [idToken, refreshToken, expirationDate, expiresIn] = arr;
+		dispatch(
+			authActions.setIdToken(
+				idToken,
+				refreshToken,
+				expirationDate,
+				expiresIn
+			)
+		);
+
 		console.log("New idToken was obtained");
 
 		try {
