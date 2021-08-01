@@ -12,18 +12,20 @@ export const SET_ID_TOKEN = "SET_ID_TOKEN";
 // Auto logout timer (upon token expiry)
 let timer;
 
-export const setIdToken = (val) => {
-	return {
-		type: SET_ID_TOKEN,
-		idToken: val,
-	}
-}
+// Firebase API key
+// Safe to be public
+const apiKey = Constants.manifest.extra.apiKey;
 
-export const setEmailVerified = (val) => {
-	return {
-		type: SET_EMAIL_VERIFIED,
-		value: val,
+// Update data to AsyncStorage under key userData
+const updateAsyncStorage = async (kwargs) => {
+	const jsonData = await AsyncStorage.getItem("userData");
+	const data = JSON.parse(jsonData);
+
+	const newData = {
+		...data,
+		...kwargs,
 	};
+	AsyncStorage.setItem("userData", JSON.stringify(newData));
 };
 
 // Set idToken, userId, email, user role, and email verification status to redux
@@ -39,6 +41,70 @@ export const sendToRedux = (idToken, userId, email, role, emailVerified) => {
 	};
 };
 
+export const setIdToken = (idToken, refreshToken, expirationDate) => {
+	return async (dispatch) => {
+		updateAsyncStorage({
+			idToken: idToken,
+			refreshToken: refreshToken,
+			expirationDate: expirationDate,
+		});
+
+		dispatch({
+			type: SET_ID_TOKEN,
+			idToken: idToken,
+		});
+	};
+};
+
+export const setEmailVerified = (val) => {
+	return async (dispatch) => {
+		updateAsyncStorage({
+			emailVerified: val,
+		});
+
+		dispatch({
+			type: SET_EMAIL_VERIFIED,
+			value: val,
+		});
+	};
+};
+
+export const refreshIdToken = (refreshToken) => {
+	return async (dispatch) => {
+		try {
+			const response = await axios.post(
+				`https://securetoken.googleapis.com/v1/token?key=${apiKey}`,
+				{
+					grant_type: "refresh_token",
+					refresh_token: refreshToken,
+				}
+			);
+			const newIdToken = response.data.id_token;
+			const newRefreshToken = response.data.refresh_token;
+			const expiresIn = +response.data.expires_in * 1000;
+
+			dispatch({
+				type: SET_ID_TOKEN,
+				idToken: newIdToken,
+			});
+
+			const expirationDate = new Date(
+				new Date().getTime() + expiresIn
+			).toISOString();
+
+			updateAsyncStorage({
+				idToken: newIdToken,
+				refreshToken: newRefreshToken,
+				expirationDate: expirationDate,
+			});
+
+			dispatch(setLogoutTimer(expiresIn));
+		} catch (err) {
+			console.log(err.message);
+		}
+	};
+};
+
 // Gets the role and email verification status from sendToDatabase()
 // Sends data to Redux
 export const authenticate = (response, pushToken) => {
@@ -48,6 +114,7 @@ export const authenticate = (response, pushToken) => {
 			const userId = response.data.localId;
 			const email = response.data.email;
 			const expirationTime = response.data.expiresIn;
+			const refreshToken = response.data.refreshToken;
 			const expiresIn = +expirationTime * 1000;
 
 			const expirationDate = new Date(
@@ -59,7 +126,8 @@ export const authenticate = (response, pushToken) => {
 				idToken,
 				pushToken,
 				email,
-				expirationDate
+				expirationDate,
+				refreshToken
 			);
 
 			dispatch(sendToRedux(idToken, userId, email, role, emailVerified));
@@ -73,10 +141,17 @@ export const authenticate = (response, pushToken) => {
 
 // When the idToken invalidates, automatically logout the user
 const setLogoutTimer = (expirationTime) => {
-	return (dispatch) => {
+	return async (dispatch) => {
+		const userData = await AsyncStorage.getItem("userData");
+		const data = JSON.parse(userData);
+
 		timer = setTimeout(() => {
-			dispatch(logout());
-		}, expirationTime);
+			if (data.refreshToken) {
+				dispatch(refreshIdToken(data.refreshToken));
+			} else {
+				dispatch(logout());
+			}
+		}, 3000);
 	};
 };
 
@@ -104,7 +179,8 @@ const sendToDatabase = async (
 	idToken,
 	pushToken,
 	email,
-	expirationDate
+	expirationDate,
+	refreshToken
 ) => {
 	// Return values
 	let role;
@@ -118,8 +194,6 @@ const sendToDatabase = async (
 			);
 
 			role = loginResponse.data ? loginResponse.data.role : "user";
-
-			const apiKey = Constants.manifest.extra.apiKey;
 
 			// Attempt to get user email verification status
 			const verify = await axios.post(
@@ -141,6 +215,7 @@ const sendToDatabase = async (
 					role: role,
 					emailVerified: emailVerified,
 					expirationDate: expirationDate,
+					refreshToken: refreshToken,
 				})
 			);
 

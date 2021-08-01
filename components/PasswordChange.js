@@ -45,7 +45,8 @@ export default function PasswordChange(props) {
 			);
 
 			const idToken = response.data.idToken;
-			return idToken;
+			const refreshToken = response.data.refreshToken;
+			return [idToken, refreshToken];
 		} catch (err) {
 			console.log(err.response.data.error.message);
 			Alert.alert("錯誤", "密碼不正確");
@@ -61,12 +62,12 @@ export default function PasswordChange(props) {
 		}
 
 		// Dispatch idToken to redux
-		const idToken = await attemptToSignIn();
+		const [idToken, refreshToken] = await attemptToSignIn();
 		if (!idToken) {
 			console.log("Password is incorrect");
 			return;
 		}
-		dispatch(authActions.setIdToken(idToken));
+		dispatch(authActions.setIdToken(idToken, refreshToken));
 		console.log("New idToken was obtained");
 
 		try {

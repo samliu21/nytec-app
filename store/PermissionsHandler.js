@@ -65,6 +65,9 @@ export default function PermissionsHandler(props) {
 				const expirationDate = new Date(data.expirationDate);
 
 				if (expirationDate <= new Date()) {
+					if (data.refreshToken) {
+						dispatch(authActions.refreshIdToken(data.refreshToken));
+					}
 					setIsLoading(false);
 					return;
 				}
@@ -75,7 +78,7 @@ export default function PermissionsHandler(props) {
 						data.userId,
 						data.email,
 						data.role,
-						data.emailVerified
+						data.emailVerified,
 					)
 				);
 			} else {
