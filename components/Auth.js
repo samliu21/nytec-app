@@ -176,9 +176,11 @@ export default function Auth(props) {
 				)}
 				{/* </KeyboardAvoidingView> */}
 				<View style={styles.buttonContainer}>
-					<CustomButton onPress={submitHandler}>提交</CustomButton>
+					<CustomButton onPress={submitHandler}>
+						{isLogin ? "登入" : "報名"}
+					</CustomButton>
 					<CustomButton onPress={switchModeHandler}>
-						{isLogin ? "建立新帳戶" : "切換到登錄"}
+						{isLogin ? "開設新賬戶" : "切換到登錄"}
 					</CustomButton>
 				</View>
 				<PasswordReset>忘記密碼了嗎? 點擊這裡!</PasswordReset>

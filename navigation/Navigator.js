@@ -42,7 +42,7 @@ const AccountNavigatorStack = createStackNavigator();
 const AccountNavigator = () => {
 	return (
 		<AccountNavigatorStack.Navigator screenOptions={defaultStyle}>
-			<AccountNavigatorStack.Screen name="帐户" component={Account} />
+			<AccountNavigatorStack.Screen name="帳戶" component={Account} />
 		</AccountNavigatorStack.Navigator>
 	);
 };
@@ -118,7 +118,7 @@ const MainUserNavigator = (props) => {
 			screenOptions={bottomTabBarScreenOptions}
 		>
 			<MainUserNavigatorBottomTabs.Screen
-				name="主页"
+				name="主頁"
 				component={props.verified ? ButtonNavigator : VerifyNavigator}
 			/>
 			<MainUserNavigatorBottomTabs.Screen
@@ -139,7 +139,7 @@ const MainAdminNavigator = (props) => {
 			screenOptions={bottomTabBarScreenOptions}
 		>
 			<MainAdminNavigatorBottomTabs.Screen
-				name="主页"
+				name="主頁"
 				component={props.verified ? ButtonNavigator : VerifyNavigator}
 			/>
 			<MainAdminNavigatorBottomTabs.Screen

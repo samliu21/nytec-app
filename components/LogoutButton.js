@@ -15,5 +15,5 @@ export default function LogoutButton() {
 		navigation.replace("List");
 	};
 
-	return <CustomButton onPress={logoutHandler}>注销</CustomButton>;
+	return <CustomButton onPress={logoutHandler}>登出</CustomButton>;
 }
