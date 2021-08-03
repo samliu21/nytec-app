@@ -6,6 +6,11 @@
     <img src="assets/admin-screen.png" width=33%>
 </div>
 
+## Update Procedure
+1. Make the appropriate changes to the codebase, preferrably in another branch.
+2. Run `expo publish` will push changes directly into the app store.
+3. You may need to upload a new build to the App or Play store if `expo publish` does not suffice.
+
 ## Overview
 
 The app uses React Native (Expo) as a code framework, with <a href="https://reactnavigation.org">React Navigation</a> for app navigation and <a href="https://redux.js.org">Redux</a> for state management. Firebase is used as the backend and database.
