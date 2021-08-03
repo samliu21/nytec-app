@@ -6,7 +6,7 @@
     <img src="assets/admin-screen.png" width=33%>
 </div>
 
-## Update Procedure
+## New Update Procedure
 1. Make the appropriate changes to the codebase, preferrably in another branch.
 2. Run `expo publish` will push changes directly into the app store.
 3. You may need to upload a new build to the App or Play store if `expo publish` does not suffice.
