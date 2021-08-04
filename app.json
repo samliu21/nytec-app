@@ -2,7 +2,7 @@
 	"expo": {
 		"name": "NYTEC",
 		"slug": "nytec-app",
-		"version": "1.0.1",
+		"version": "1.0.2",
 		"orientation": "portrait",
 		"icon": "./assets/app-logo.png",
 		"primaryColor": "#E3E4E6",
@@ -19,11 +19,11 @@
 		"assetBundlePatterns": ["assets/*"],
 		"ios": {
 			"bundleIdentifier": "com.nytec.nytec",
-			"buildNumber": "1.0.1"
+			"buildNumber": "1.0.2"
 		},
 		"android": {
 			"package": "com.nytec.nytec",
-			"versionCode": 1,
+			"versionCode": 2,
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/app-logo.png",
 				"backgroundColor": "#E3E4E6"
