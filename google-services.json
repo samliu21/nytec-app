@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "594130658236",
+    "firebase_url": "https://nytec-app-default-rtdb.firebaseio.com",
+    "project_id": "nytec-app",
+    "storage_bucket": "nytec-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594130658236:android:1c1b4424eb9ac2355381b9",
+        "android_client_info": {
+          "package_name": "com.nytec.ntec"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594130658236-clnjnntrjsqq4u4ufgv6k0csap6q2bkd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCphYGtZZZh0yK-iZeWDV0PPZyZXtVpQq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594130658236-clnjnntrjsqq4u4ufgv6k0csap6q2bkd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
