@@ -171,7 +171,7 @@ const sendToDatabase = (userId, idToken, pushToken) => {
 		try {
 			// Attempt to get user role
 			const loginResponse = await axios.get(
-				`https://nytec-app-default-rtdb.firebaseio.com//users/${userId}.json?auth=${idToken}`
+				`https://nytec-app-default-rtdb.firebaseio.com/users/${userId}.json?auth=${idToken}`
 			);
 
 			const role = loginResponse.data ? loginResponse.data.role : "user";
@@ -201,7 +201,7 @@ const sendToDatabase = (userId, idToken, pushToken) => {
 			// If user doesn't have a role yet, set it
 			if (!loginResponse.data) {
 				await axios.put(
-					`https://nytec-app-default-rtdb.firebaseio.com//users/${userId}.json?auth=${idToken}`,
+					`https://nytec-app-default-rtdb.firebaseio.com/users/${userId}.json?auth=${idToken}`,
 					{
 						role: "user",
 					},
@@ -216,21 +216,24 @@ const sendToDatabase = (userId, idToken, pushToken) => {
 			console.log(err.message);
 		}
 
+		console.log(pushToken, userId, idToken);
 		try {
 			// If push token and user id exist, fetch current token list and append new token if not already in the list
-			if (pushToken && userId && idToken) {
+			if (userId && idToken) {
 				const response = await axios.get(
-					`https://nytec-app-default-rtdb.firebaseio.com//tokens/${userId}.json?auth=${idToken}`
+					`https://nytec-app-default-rtdb.firebaseio.com/tokens/${userId}.json?auth=${idToken}`
 				);
-
+				
 				const tokens = response.data ? response.data.tokens : null;
+				console.log(tokens);
 
 				if (!tokens || !tokens.includes(pushToken)) {
 					const updatedTokenList = tokens ? tokens : [];
 					updatedTokenList.push(pushToken);
+					console.log(updatedTokenList);
 
-					await axios.put(
-						`https://nytec-app-default-rtdb.firebaseio.com//tokens/${userId}.json?auth=${idToken}`,
+					const response = await axios.put(
+						`https://nytec-app-default-rtdb.firebaseio.com/tokens/${userId}.json?auth=${idToken}`,
 						{
 							tokens: updatedTokenList,
 						},
@@ -240,6 +243,7 @@ const sendToDatabase = (userId, idToken, pushToken) => {
 							},
 						}
 					);
+					console.log(response.data);
 				}
 			}
 		} catch (err) {

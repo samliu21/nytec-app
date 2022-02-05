@@ -39,10 +39,13 @@ export default function PermissionsHandler(props) {
 					console.log("Notifications aren't allowed!");
 					return;
 				}
+				console.log(finalStatus);
 
 				const pulledToken = (
 					await Notifications.getExpoPushTokenAsync()
 				).data;
+
+				console.log(pulledToken);
 
 				if (pulledToken) {
 					dispatch(notificationActions.setToken(pulledToken));

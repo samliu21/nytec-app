@@ -1,3 +1,5 @@
+https://play.google.com/store/apps/details?id=com.nytec.nytec
+
 # Developer Documentation
 
 <div>
@@ -6,10 +8,9 @@
     <img src="assets/admin-screen.png" width=33%>
 </div>
 
-## New Update Procedure
-1. Make the appropriate changes to the codebase, preferrably in another branch.
-2. Run `expo publish` will push changes directly into the app store.
-3. You may need to upload a new build to the App or Play store if `expo publish` does not suffice.
+## Pushing a New Update
+1. Run `expo publish` to push changes directly into the app store.
+2. You may need to upload a new build to the App or Play store if `expo publish` does not suffice (e.g. the changes are large).
 
 ## Overview
 

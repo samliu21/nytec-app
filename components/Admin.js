@@ -32,7 +32,7 @@ export default function Admin() {
 		// Obtain all push tokens and add them to a set so they're unique
 		try {
 			const response = await axios.get(
-				`https://nytec-app-default-rtdb.firebaseio.com//tokens.json?auth=${idToken}`
+				`https://nytec-app-default-rtdb.firebaseio.com/tokens.json?auth=${idToken}`
 			);
 			const obj = response.data;
 
